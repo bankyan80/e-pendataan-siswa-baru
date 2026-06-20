@@ -504,6 +504,7 @@ export default function App() {
             </div>
 
             {/* Scope info & school filters */}
+            {currentRole !== 'PENGAWAS_SEKOLAH' && currentRole !== 'PENILIK' && (
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] font-black text-white/70 uppercase tracking-wider">Cakupan Unit:</span>
               
@@ -558,6 +559,7 @@ export default function App() {
                 </select>
               )}
             </div>
+            )}
           </div>
         </div>
 
