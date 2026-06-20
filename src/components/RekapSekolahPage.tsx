@@ -176,6 +176,7 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
                         setActiveSchool(row.namaSekolah);
                         setActiveTab('dashboard');
                       }}
+                      aria-label={`Lihat dashboard ${row.namaSekolah}`}
                     >
                       <td className="p-2.5 pl-5 font-black text-slate-400 text-center border-r border-slate-200">{row.no}</td>
                       <td className="p-2.5 font-mono text-center border-r border-slate-200 text-slate-600">{row.npsn}</td>
@@ -245,6 +246,7 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
                         setActiveSchool(school.nama);
                         setActiveTab('dashboard');
                       }}
+                      aria-label={`Lihat dashboard ${school.nama}`}
                     >
                       <td className="p-3.5 pl-5 font-black text-slate-400">{idx + 1}</td>
                       <td className="p-3.5 font-extrabold text-slate-900">{school.nama}</td>

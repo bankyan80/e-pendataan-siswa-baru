@@ -242,14 +242,14 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                                         <>
                                           <button
                                             onClick={() => handleEdit(siswa)}
-                                            className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all hover:scale-110"
+                                            className="p-2.5 min-w-[36px] min-h-[36px] text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all hover:scale-110"
                                             title="Edit Rekap"
                                           >
                                             <Edit2 className="w-3.5 h-3.5" />
                                           </button>
                                           <button
                                             onClick={() => props.onDeleteStudent(siswa.id, siswa.sekolahTujuan, siswa.sekolahTujuan)}
-                                            className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition-all hover:scale-110"
+                                            className="p-2.5 min-w-[36px] min-h-[36px] text-rose-500 hover:bg-rose-50 rounded-lg transition-all hover:scale-110"
                                             title="Hapus Rekap"
                                           >
                                             <Trash2 className="w-3.5 h-3.5" />
@@ -353,14 +353,14 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                                         <>
                                           <button
                                             onClick={() => handleEdit(siswa)}
-                                            className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all hover:scale-110"
+                                            className="p-2.5 min-w-[36px] min-h-[36px] text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all hover:scale-110"
                                             title="Edit Rekap"
                                           >
                                             <Edit2 className="w-3.5 h-3.5" />
                                           </button>
                                           <button
                                             onClick={() => props.onDeleteStudent(siswa.id, siswa.sekolahTujuan, siswa.sekolahTujuan)}
-                                            className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition-all hover:scale-110"
+                                            className="p-2.5 min-w-[36px] min-h-[36px] text-rose-500 hover:bg-rose-50 rounded-lg transition-all hover:scale-110"
                                             title="Hapus Rekap"
                                           >
                                             <Trash2 className="w-3.5 h-3.5" />
@@ -464,14 +464,14 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                                         <>
                                           <button
                                             onClick={() => handleEdit(siswa)}
-                                            className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all hover:scale-110"
+                                            className="p-2.5 min-w-[36px] min-h-[36px] text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all hover:scale-110"
                                             title="Edit Rekap"
                                           >
                                             <Edit2 className="w-3.5 h-3.5" />
                                           </button>
                                           <button
                                             onClick={() => props.onDeleteStudent(siswa.id, siswa.sekolahTujuan, siswa.sekolahTujuan)}
-                                            className="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg transition-all hover:scale-110"
+                                            className="p-2.5 min-w-[36px] min-h-[36px] text-rose-500 hover:bg-rose-50 rounded-lg transition-all hover:scale-110"
                                             title="Hapus Rekap"
                                           >
                                             <Trash2 className="w-3.5 h-3.5" />
