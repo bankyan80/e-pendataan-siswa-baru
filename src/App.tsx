@@ -103,7 +103,11 @@ export default function App() {
   }) : alumni, [alumni, jenjangFilter]);
   
   // Navigation tabs
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'siswa_baru' | 'alumni' | 'rekap_sekolah'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'siswa_baru' | 'alumni' | 'rekap_sekolah'>(() => {
+    const saved = localStorage.getItem('active_tab');
+    if (saved === 'siswa_baru' || saved === 'alumni' || saved === 'rekap_sekolah' || saved === 'dashboard') return saved;
+    return 'dashboard';
+  });
 
   const [confirmDelete, setConfirmDelete] = useState<{
     type: 'siswa' | 'alumni';
@@ -127,6 +131,10 @@ export default function App() {
   useEffect(() => {
     try { localStorage.setItem('activity_logs_real', JSON.stringify(logs)); } catch {}
   }, [logs]);
+
+  useEffect(() => {
+    try { localStorage.setItem('active_tab', activeTab); } catch {}
+  }, [activeTab]);
 
   const [selectedTime, setSelectedTime] = useState('10:15');
 
