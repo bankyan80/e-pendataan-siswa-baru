@@ -91,7 +91,7 @@ export default function App() {
   // Sekolah terpilih jika Admin Dinas memfilter, atau sekolah Asal Kepala Sekolah
   const [activeSchool, setActiveSchool] = useState<string>('');
   
-  const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PUBLIK' || (currentRole === 'KEPALA_SEKOLAH' && !activeSchool);
+  const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PUBLIK' || currentRole === 'KEPALA_SEKOLAH' || (currentRole === 'OPERATOR_SEKOLAH' && !activeSchool);
   
   // Navigation tabs
   const [activeTab, setActiveTab] = useState<'dashboard' | 'siswa_baru' | 'alumni' | 'rekap_sekolah'>('dashboard');
@@ -283,7 +283,7 @@ export default function App() {
       id: generateId('log'),
       timestamp: new Date().toISOString(),
       role,
-      actorName: role === 'ADMIN_DINAS' ? 'Tim Dinas' : role === 'PENGAWAS_SEKOLAH' ? 'Pengawas' : role === 'PUBLIK' ? 'Masyarakat (Publik)' : 'Kepala Sekolah',
+      actorName: role === 'ADMIN_DINAS' ? 'Tim Dinas' : role === 'PENGAWAS_SEKOLAH' ? 'Pengawas' : role === 'PUBLIK' ? 'Masyarakat (Publik)' : role === 'OPERATOR_SEKOLAH' ? 'Operator Sekolah' : 'Kepala Sekolah',
       action: 'Login',
       detail: `Mengganti mode akses dashboard menjadi ${
         role === 'ADMIN_DINAS'
@@ -292,6 +292,8 @@ export default function App() {
           ? 'Pengawas Sekolah'
           : role === 'PUBLIK'
           ? 'Akses Publik (Masyarakat / Wali Murid)'
+          : role === 'OPERATOR_SEKOLAH'
+          ? 'Operator Sekolah'
           : 'Kepala Sekolah'
       }.`,
       type: 'info'
@@ -375,6 +377,16 @@ export default function App() {
                   Kepala Sekolah
                 </button>
                 <button
+                  onClick={() => handleRoleChange('OPERATOR_SEKOLAH')}
+                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                    currentRole === 'OPERATOR_SEKOLAH'
+                      ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
+                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                  }`}
+                >
+                  Operator
+                </button>
+                <button
                   onClick={() => handleRoleChange('PENGAWAS_SEKOLAH')}
                   className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'PENGAWAS_SEKOLAH'
@@ -401,7 +413,7 @@ export default function App() {
             <div className="flex items-center gap-1.5">
               <span className="text-[10px] font-black text-white/70 uppercase tracking-wider">Cakupan Unit:</span>
               
-              {currentRole === 'KEPALA_SEKOLAH' ? (
+              {currentRole === 'KEPALA_SEKOLAH' || currentRole === 'OPERATOR_SEKOLAH' ? (
                 <select
                   value={activeSchool}
                   onChange={(e) => setActiveSchool(e.target.value)}
