@@ -91,6 +91,10 @@ export default function ActivityFeed({ id, logs }: ActivityFeedProps) {
                     ? 'Tim Kerja Dinas'
                     : log.role === 'KEPALA_SEKOLAH'
                     ? 'Kepsek'
+                    : log.role === 'OPERATOR_SEKOLAH'
+                    ? 'Operator'
+                    : log.role === 'PENILIK'
+                    ? 'Penilik'
                     : 'Pengawas'}
                 </span>
               </div>

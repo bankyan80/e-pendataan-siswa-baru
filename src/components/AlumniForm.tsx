@@ -111,7 +111,7 @@ export default function AlumniForm({
       tujuanSekolah: status === 'Melanjutkan' ? tujuanSekolah.trim() : undefined,
       alasanTidakMelanjutkan: status === 'Tidak Melanjutkan' ? alasanTidakMelanjutkan : undefined,
       statusVerifikasi,
-      tanggalUpdate: alumni?.tanggalUpdate || new Date().toISOString().split('T')[0]
+      tanggalUpdate: alumni?.id ? (alumni.tanggalUpdate || new Date().toISOString().split('T')[0]) : new Date().toISOString().split('T')[0]
     };
 
     onSave(data);

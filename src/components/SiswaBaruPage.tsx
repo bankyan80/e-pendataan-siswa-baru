@@ -168,7 +168,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-300 pb-3">
                       <div className="flex items-center gap-2">
                         <span className="flex h-3 w-3 relative">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-450 opacity-75"></span>
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                         </span>
                         <h4 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-wide uppercase">
@@ -191,7 +191,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                             <th className="px-4 py-3 text-center font-black uppercase tracking-wider w-20 bg-slate-100/50 text-slate-900 border-r border-slate-300">Total</th>
                             <th className="px-3 py-3 text-center font-semibold text-[10px] uppercase tracking-wider w-20 bg-emerald-50/10 text-emerald-800">Domisili</th>
                             <th className="px-3 py-3 text-center font-semibold text-[10px] uppercase tracking-wider w-20 bg-rose-50/10 text-rose-800">Afirmasi</th>
-                            <th className="px-3 py-3 text-center font-semibold text-[10px] uppercase tracking-wider w-20 bg-violet-50/10 text-violet-850">Mutasi</th>
+                            <th className="px-3 py-3 text-center font-semibold text-[10px] uppercase tracking-wider w-20 bg-violet-50/10 text-violet-800">Mutasi</th>
                             <th className="px-3 py-3 text-center font-semibold text-[10px] uppercase tracking-wider w-20 bg-teal-50/10 text-teal-800">Umum</th>
                             <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider">Catatan</th>
                             <th className="px-3 py-3 text-center font-extrabold uppercase tracking-wider w-28">Status</th>
@@ -220,7 +220,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                                   <td className="px-3 py-3 text-center">
                                     <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black ${
                                       siswa.statusVerifikasi === 'Diverifikasi'
-                                        ? 'bg-emerald-100 text-emerald-850'
+                                        ? 'bg-emerald-100 text-emerald-800'
                                         : siswa.statusVerifikasi === 'Ditolak'
                                         ? 'bg-rose-100 text-rose-800'
                                         : 'bg-amber-100 text-amber-800'
@@ -287,7 +287,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-300 pb-3">
                       <div className="flex items-center gap-2">
                         <span className="flex h-3 w-3 relative">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-450 opacity-75"></span>
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
                         </span>
                         <h4 className="font-extrabold text-sm sm:text-base text-slate-900 tracking-wide uppercase">
@@ -331,7 +331,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                                   <td className="px-3 py-3 text-center">
                                     <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black ${
                                       siswa.statusVerifikasi === 'Diverifikasi'
-                                        ? 'bg-emerald-100 text-emerald-850'
+                                        ? 'bg-emerald-100 text-emerald-800'
                                         : siswa.statusVerifikasi === 'Ditolak'
                                         ? 'bg-rose-100 text-rose-800'
                                         : 'bg-amber-100 text-amber-800'
@@ -442,7 +442,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                                   <td className="px-3 py-3 text-center">
                                     <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black ${
                                       siswa.statusVerifikasi === 'Diverifikasi'
-                                        ? 'bg-emerald-100 text-emerald-850'
+                                        ? 'bg-emerald-100 text-emerald-800'
                                         : siswa.statusVerifikasi === 'Ditolak'
                                         ? 'bg-rose-100 text-rose-800'
                                         : 'bg-amber-100 text-amber-800'

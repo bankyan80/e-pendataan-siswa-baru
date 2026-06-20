@@ -160,7 +160,7 @@ export default function SiswaBaruForm({
       kelompokA: jenjang !== 'SD' ? kelompokA : 0,
       kelompokB: jenjang !== 'SD' ? kelompokB : 0,
       statusVerifikasi,
-      tanggalDaftar: student?.tanggalDaftar || new Date().toISOString().split('T')[0],
+      tanggalDaftar: student?.id ? (student.tanggalDaftar || new Date().toISOString().split('T')[0]) : new Date().toISOString().split('T')[0],
       catatan: catatan.trim()
     };
 
@@ -189,7 +189,7 @@ export default function SiswaBaruForm({
           <button
             id="btn_form_close"
             onClick={onClose}
-            className="p-2 rounded-2xl bg-slate-800 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition"
+            className="p-2 rounded-2xl bg-slate-200 hover:bg-slate-300 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -239,7 +239,7 @@ export default function SiswaBaruForm({
           <div className="space-y-1.5">
             <label className="text-xs font-black text-slate-700 dark:text-slate-400 block uppercase tracking-wider">Nama Lembaga Pendidikan</label>
             {userRole === 'KEPALA_SEKOLAH' || isReadOnly ? (
-              <div className="w-full px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-200 text-sm font-black text-slate-800 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
+              <div className="w-full px-4 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-sm font-black text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
                 {sekolahTujuan}
               </div>
             ) : (

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   SiswaBaru,
   AlumniSD,
@@ -108,18 +108,23 @@ export default function App() {
     school: string;
   } | null>(null);
 
+  const noopEditSiswa = useCallback(function (_s: SiswaBaru | null) {}, []);
+  const noopEditAlumni = useCallback(function (_a: AlumniSD | null) {}, []);
+
   // --- LOCAL PERSISTENCE ---
   useEffect(() => {
-    localStorage.setItem('siswa_baru_real', JSON.stringify(siswaBaru));
+    try { localStorage.setItem('siswa_baru_real', JSON.stringify(siswaBaru)); } catch {}
   }, [siswaBaru]);
 
   useEffect(() => {
-    localStorage.setItem('alumni_sd_real', JSON.stringify(alumni));
+    try { localStorage.setItem('alumni_sd_real', JSON.stringify(alumni)); } catch {}
   }, [alumni]);
 
   useEffect(() => {
-    localStorage.setItem('activity_logs_real', JSON.stringify(logs));
+    try { localStorage.setItem('activity_logs_real', JSON.stringify(logs)); } catch {}
   }, [logs]);
+
+  const [selectedTime, setSelectedTime] = useState('10:15');
 
   // Real-time Clock Simulator for Android Status Bar
   useEffect(() => {
@@ -131,8 +136,6 @@ export default function App() {
     const interval = setInterval(updateClock, 1000);
     return () => clearInterval(interval);
   }, []);
-
-  const [selectedTime, setSelectedTime] = useState('10:15');
 
   // --- DERIVED METRICS ---
   // Overall Global Counts for KPI cards (taking into account selected school if any)
@@ -479,6 +482,12 @@ export default function App() {
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto p-5 space-y-6">
 
+          {currentRole === 'OPERATOR_SEKOLAH' && !activeSchool && (
+            <div className="p-4 bg-amber-500/20 backdrop-blur-md border border-amber-400/30 rounded-2xl text-amber-100 text-xs font-bold text-center">
+              Pilih sekolah terlebih dahulu pada menu Cakupan Unit untuk mengedit data.
+            </div>
+          )}
+
           {/* ---- TAB 1: DASHBOARD MONITORING REAL-TIME ---- */}
           {activeTab === 'dashboard' && (
             <DashboardPage
@@ -497,7 +506,7 @@ export default function App() {
               isReadOnly={isReadOnly}
               currentRole={currentRole}
               onSaveStudent={handleSaveStudent}
-              onEditStudent={function (_s: SiswaBaru | null) {}}
+              onEditStudent={noopEditSiswa}
               onDeleteStudent={(id, name, school) => {
                 setConfirmDelete({ type: 'siswa', id, name, school });
               }}
@@ -513,7 +522,7 @@ export default function App() {
               userRole={currentRole}
               kpis={{ continuing: kpis.continuing, notContinuing: kpis.notContinuing }}
               onSaveAlumni={handleSaveAlumni}
-              onEditAlumni={function (_a: AlumniSD | null) {}}
+              onEditAlumni={noopEditAlumni}
               onDeleteAlumni={(id, name, school) => setConfirmDelete({ type: 'alumni', id, name, school })}
             />
           )}

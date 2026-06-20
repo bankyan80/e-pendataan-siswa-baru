@@ -6,7 +6,8 @@ import { School, Save } from 'lucide-react';
 const STORAGE_KEY = 'rekap_kelas_sd';
 
 function loadRekapKelas(): RekapKelasSD[] {
-  const saved = localStorage.getItem(STORAGE_KEY);
+  let saved: string | null = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch {}
   if (saved) { try { return JSON.parse(saved); } catch {} }
   const sdSchools = LIST_SEKOLAH.filter(s => s.jenjang === 'SD');
   return sdSchools.map(s => ({
