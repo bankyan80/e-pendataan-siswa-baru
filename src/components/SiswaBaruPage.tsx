@@ -30,6 +30,10 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
   const [showSiswaForm, setShowSiswaForm] = useState(false);
   const [editingStudent, setEditingStudent] = useState<SiswaBaru | null>(null);
 
+  const showSD = props.currentRole !== 'PENILIK';
+  const showTK = props.currentRole !== 'PENILIK';
+  const showKB = props.currentRole !== 'PENGAWAS_SEKOLAH';
+
   const filteredSiswaBaru = useMemo(() => {
     return props.siswaBaru.filter(siswa => {
       if (props.activeSchool && siswa.sekolahTujuan !== props.activeSchool) return false;
@@ -119,10 +123,12 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
             onChange={(e) => setSbFilterJenjang(e.target.value)}
             className="px-3 py-1.5 rounded-xl border border-white/20 text-xs focus:outline-none bg-white/10 text-white cursor-pointer font-bold transition-all"
           >
-            <option value="ALL" className="text-slate-800 bg-white">Semua Jenjang (TK/KB/SD)</option>
-            <option value="SD" className="text-slate-800 bg-white">SD (Sekolah Dasar)</option>
-            <option value="TK" className="text-slate-800 bg-white">TK (Taman Kanak-Kanak)</option>
-            <option value="KB" className="text-slate-800 bg-white">KB (Kelompok Bermain)</option>
+            <option value="ALL" className="text-slate-800 bg-white">
+              {props.currentRole === 'PENGAWAS_SEKOLAH' ? 'SD & TK' : props.currentRole === 'PENILIK' ? 'KB' : 'Semua Jenjang (TK/KB/SD)'}
+            </option>
+            {showSD && <option value="SD" className="text-slate-800 bg-white">SD (Sekolah Dasar)</option>}
+            {showTK && <option value="TK" className="text-slate-800 bg-white">TK (Taman Kanak-Kanak)</option>}
+            {showKB && <option value="KB" className="text-slate-800 bg-white">KB (Kelompok Bermain)</option>}
           </select>
 
           {/* Verification Status filter */}
@@ -163,7 +169,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
             return (
               <>
                 {/* SD TABLE */}
-                {(sbFilterJenjang === 'ALL' || sbFilterJenjang === 'SD') && (
+                {showSD && (sbFilterJenjang === 'ALL' || sbFilterJenjang === 'SD') && (
                   <div className="bg-white/95 backdrop-blur-2xl border border-white/45 rounded-3xl shadow-xl p-5 space-y-4 text-slate-800">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-300 pb-3">
                       <div className="flex items-center gap-2">
@@ -282,7 +288,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                 )}
 
                 {/* TK TABLE */}
-                {(sbFilterJenjang === 'ALL' || sbFilterJenjang === 'TK') && (
+                {showTK && (sbFilterJenjang === 'ALL' || sbFilterJenjang === 'TK') && (
                   <div className="bg-white/95 backdrop-blur-2xl border border-white/45 rounded-3xl shadow-xl p-5 space-y-4 text-slate-800">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-300 pb-3">
                       <div className="flex items-center gap-2">
@@ -393,7 +399,7 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                 )}
 
                 {/* KB TABLE */}
-                {(sbFilterJenjang === 'ALL' || sbFilterJenjang === 'KB') && (
+                {showKB && (sbFilterJenjang === 'ALL' || sbFilterJenjang === 'KB') && (
                   <div className="bg-white/95 backdrop-blur-2xl border border-white/45 rounded-3xl shadow-xl p-5 space-y-4 text-slate-800">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-300 pb-3">
                       <div className="flex items-center gap-2">
