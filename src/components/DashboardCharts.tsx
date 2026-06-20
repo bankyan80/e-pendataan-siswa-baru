@@ -27,6 +27,7 @@ interface DashboardChartsProps {
 
 export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: DashboardChartsProps) {
   const isPenilik = currentRole === 'PENILIK';
+  const isPengawas = currentRole === 'PENGAWAS_SEKOLAH';
   
   // 1. Calculate Pendaftar bY Jenjang
   const countJenjang = (jenjang: string) => {
@@ -43,6 +44,11 @@ export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: 
   
   const dataJenjang = isPenilik
     ? [{ name: 'KB (Kelompok Bermain)', value: countJenjang('KB'), fill: '#9333ea' }]
+    : isPengawas
+    ? [
+        { name: 'TK (Taman Kanak-Kanak)', value: countJenjang('TK'), fill: '#3b82f6' },
+        { name: 'SD (Sekolah Dasar)', value: countJenjang('SD'), fill: '#10b981' },
+      ]
     : [
         { name: 'KB (Kelompok Bermain)', value: countJenjang('KB'), fill: '#9333ea' },
         { name: 'TK (Taman Kanak-Kanak)', value: countJenjang('TK'), fill: '#3b82f6' },
