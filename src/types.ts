@@ -45,7 +45,7 @@ export type AlumniSD = {
   tanggalUpdate: string;
 };
 
-export type UserRole = 'ADMIN_DINAS' | 'KEPALA_SEKOLAH' | 'OPERATOR_SEKOLAH' | 'PENGAWAS_SEKOLAH' | 'PUBLIK';
+export type UserRole = 'ADMIN_DINAS' | 'KEPALA_SEKOLAH' | 'OPERATOR_SEKOLAH' | 'PENGAWAS_SEKOLAH' | 'PENILIK' | 'PUBLIK';
 
 export type Sekolah = {
   id: string;

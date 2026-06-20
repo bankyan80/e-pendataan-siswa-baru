@@ -8,6 +8,7 @@ import {
   SiswaBaru,
   AlumniSD,
   UserRole,
+  Jenjang,
   ActivityLog
 } from './types';
 import {
@@ -91,7 +92,16 @@ export default function App() {
   // Sekolah terpilih jika Admin Dinas memfilter, atau sekolah Asal Kepala Sekolah
   const [activeSchool, setActiveSchool] = useState<string>('');
   
-  const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PUBLIK' || currentRole === 'KEPALA_SEKOLAH' || (currentRole === 'OPERATOR_SEKOLAH' && !activeSchool);
+  const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PENILIK' || currentRole === 'PUBLIK' || currentRole === 'KEPALA_SEKOLAH' || (currentRole === 'OPERATOR_SEKOLAH' && !activeSchool);
+  
+  const jenjangFilter = currentRole === 'PENGAWAS_SEKOLAH' ? (['SD', 'TK'] as Jenjang[]) : currentRole === 'PENILIK' ? (['KB'] as Jenjang[]) : null;
+
+  // Pre-filter data by jenjang before passing to pages
+  const filteredSiswaBaru = useMemo(() => jenjangFilter ? siswaBaru.filter(s => jenjangFilter.includes(s.jenjang)) : siswaBaru, [siswaBaru, jenjangFilter]);
+  const filteredAlumni = useMemo(() => jenjangFilter ? alumni.filter(a => {
+    const s = LIST_SEKOLAH.find(s => s.nama === a.sekolahAsal);
+    return s && jenjangFilter.includes(s.jenjang);
+  }) : alumni, [alumni, jenjangFilter]);
   
   // Navigation tabs
   const [activeTab, setActiveTab] = useState<'dashboard' | 'siswa_baru' | 'alumni' | 'rekap_sekolah'>('dashboard');
@@ -133,12 +143,12 @@ export default function App() {
   // Overall Global Counts for KPI cards (taking into account selected school if any)
   const kpis = useMemo(() => {
     const listSiswa = activeSchool 
-      ? siswaBaru.filter(s => s.sekolahTujuan === activeSchool) 
-      : siswaBaru;
+      ? filteredSiswaBaru.filter(s => s.sekolahTujuan === activeSchool) 
+      : filteredSiswaBaru;
     
     const listAlumni = activeSchool 
-      ? alumni.filter(a => a.sekolahAsal === activeSchool) 
-      : alumni;
+      ? filteredAlumni.filter(a => a.sekolahAsal === activeSchool) 
+      : filteredAlumni;
 
     const getSiswaBaruTotal = (s: SiswaBaru) => {
       if (s.jenjang === 'SD') {
@@ -283,13 +293,15 @@ export default function App() {
       id: generateId('log'),
       timestamp: new Date().toISOString(),
       role,
-      actorName: role === 'ADMIN_DINAS' ? 'Tim Dinas' : role === 'PENGAWAS_SEKOLAH' ? 'Pengawas' : role === 'PUBLIK' ? 'Masyarakat (Publik)' : role === 'OPERATOR_SEKOLAH' ? 'Operator Sekolah' : 'Kepala Sekolah',
+      actorName: role === 'ADMIN_DINAS' ? 'Tim Dinas' : role === 'PENGAWAS_SEKOLAH' ? 'Pengawas' : role === 'PENILIK' ? 'Penilik' : role === 'PUBLIK' ? 'Masyarakat (Publik)' : role === 'OPERATOR_SEKOLAH' ? 'Operator Sekolah' : 'Kepala Sekolah',
       action: 'Login',
       detail: `Mengganti mode akses dashboard menjadi ${
         role === 'ADMIN_DINAS'
           ? 'Tim Kerja Dinas Pendidikan Kecamatan'
           : role === 'PENGAWAS_SEKOLAH'
           ? 'Pengawas Sekolah'
+          : role === 'PENILIK'
+          ? 'Penilik'
           : role === 'PUBLIK'
           ? 'Akses Publik (Masyarakat / Wali Murid)'
           : role === 'OPERATOR_SEKOLAH'
@@ -397,6 +409,16 @@ export default function App() {
                   Pengawas
                 </button>
                 <button
+                  onClick={() => handleRoleChange('PENILIK')}
+                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                    currentRole === 'PENILIK'
+                      ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
+                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                  }`}
+                >
+                  Penilik
+                </button>
+                <button
                   onClick={() => handleRoleChange('PUBLIK')}
                   className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'PUBLIK'
@@ -431,21 +453,28 @@ export default function App() {
                   className="px-3 py-1 bg-white/15 backdrop-blur-md font-bold text-[10px] uppercase tracking-wide border border-white/20 rounded-xl cursor-pointer text-white focus:bg-slate-900 focus:text-white focus:outline-none transition-all duration-200"
                 >
                   <option value="" className="text-slate-800">Semua Sekolah Kecamatan</option>
-                  <optgroup label="Tingkat SD" className="text-slate-800">
-                    {LIST_SEKOLAH.filter(s => s.jenjang === 'SD').map(s => (
-                      <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="Tingkat TK" className="text-slate-800">
-                    {LIST_SEKOLAH.filter(s => s.jenjang === 'TK').map(s => (
-                      <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
-                    ))}
-                  </optgroup>
-                  <optgroup label="Tingkat KB" className="text-slate-800">
-                    {LIST_SEKOLAH.filter(s => s.jenjang === 'KB').map(s => (
-                      <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
-                    ))}
-                  </optgroup>
+                  {jenjangFilter
+                    ? LIST_SEKOLAH.filter(s => jenjangFilter.includes(s.jenjang)).map(s => (
+                        <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                      ))
+                    : <>
+                        <optgroup label="Tingkat SD" className="text-slate-800">
+                          {LIST_SEKOLAH.filter(s => s.jenjang === 'SD').map(s => (
+                            <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Tingkat TK" className="text-slate-800">
+                          {LIST_SEKOLAH.filter(s => s.jenjang === 'TK').map(s => (
+                            <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Tingkat KB" className="text-slate-800">
+                          {LIST_SEKOLAH.filter(s => s.jenjang === 'KB').map(s => (
+                            <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                          ))}
+                        </optgroup>
+                      </>
+                  }
                 </select>
               )}
             </div>
@@ -458,20 +487,20 @@ export default function App() {
           {/* ---- TAB 1: DASHBOARD MONITORING REAL-TIME ---- */}
           {activeTab === 'dashboard' && (
             <DashboardPage
-              siswaBaru={siswaBaru}
-              alumni={alumni}
+              siswaBaru={filteredSiswaBaru}
+              alumni={filteredAlumni}
               logs={logs}
               activeSchool={activeSchool}
               kpis={kpis}
-              onExportSiswa={() => exportSiswaBaruToCSV(siswaBaru)}
-              onExportAlumni={() => exportAlumniToCSV(alumni)}
+              onExportSiswa={() => exportSiswaBaruToCSV(filteredSiswaBaru)}
+              onExportAlumni={() => exportAlumniToCSV(filteredAlumni)}
             />
           )}
 
 
           {activeTab === 'siswa_baru' && (
             <SiswaBaruPage
-              siswaBaru={siswaBaru}
+              siswaBaru={filteredSiswaBaru}
               activeSchool={activeSchool}
               isReadOnly={isReadOnly}
               currentRole={currentRole}
@@ -486,7 +515,7 @@ export default function App() {
           {/* ---- TAB 3: ALUMNI ---- */}
           {activeTab === 'alumni' && (
             <AlumniPage
-              alumni={alumni}
+              alumni={filteredAlumni}
               activeSchool={activeSchool}
               isReadOnly={isReadOnly}
               userRole={currentRole}
@@ -500,8 +529,8 @@ export default function App() {
           {/* ---- TAB 4: REKAP SEKOLAH ---- */}
           {activeTab === 'rekap_sekolah' && (
             <RekapSekolahPage
-              siswaBaru={siswaBaru}
-              alumni={alumni}
+              siswaBaru={filteredSiswaBaru}
+              alumni={filteredAlumni}
               activeSchool={activeSchool}
               setActiveSchool={setActiveSchool}
               setActiveTab={setActiveTab}
