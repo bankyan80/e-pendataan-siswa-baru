@@ -181,11 +181,11 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-slate-200/80 bg-white shadow-inner">
-                      <table className="w-full text-xs text-slate-700 min-w-[950px] border-collapse">
+                      <table className="w-full text-xs text-slate-700 min-w-0 border-collapse">
                         <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 select-none">
                           <tr>
                             <th className="px-3 py-3 text-center font-extrabold uppercase tracking-wider w-12">No</th>
-                            <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider min-w-[200px]">Nama Sekolah</th>
+                            <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider min-w-[120px] sm:min-w-[200px]">Nama Sekolah</th>
                             <th className="px-3 py-3 text-center font-extrabold uppercase tracking-wider w-16 border-l border-slate-300 bg-indigo-50/20 text-indigo-800">L</th>
                             <th className="px-3 py-3 text-center font-extrabold uppercase tracking-wider w-16 bg-rose-50/20 text-rose-800">P</th>
                             <th className="px-4 py-3 text-center font-black uppercase tracking-wider w-20 bg-slate-100/50 text-slate-900 border-r border-slate-300">Total</th>
@@ -300,11 +300,11 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-slate-200/80 bg-white shadow-inner">
-                      <table className="w-full text-xs text-slate-700 min-w-[850px] border-collapse">
+                      <table className="w-full text-xs text-slate-700 min-w-0 border-collapse">
                         <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 select-none">
                           <tr>
                             <th className="px-3 py-3 text-center font-extrabold uppercase tracking-wider w-12">No</th>
-                            <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider min-w-[200px]">Nama Sekolah</th>
+                            <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider min-w-[120px] sm:min-w-[200px]">Nama Sekolah</th>
                             <th className="px-4 py-3 text-center font-extrabold uppercase tracking-wider w-40 border-l border-slate-300 bg-amber-50/20 text-amber-900">Kelompok A (4-5 Thn)</th>
                             <th className="px-4 py-3 text-center font-extrabold uppercase tracking-wider w-40 bg-indigo-50/20 text-indigo-900 border-r border-slate-300">Kelompok B (5-6 Thn)</th>
                             <th className="px-4 py-3 text-center font-black uppercase tracking-wider w-28 bg-slate-100/50 text-slate-900">Total</th>
@@ -411,11 +411,11 @@ export default function SiswaBaruPage(props: SiswaBaruPageProps) {
                     </div>
 
                     <div className="overflow-x-auto rounded-xl border border-slate-200/80 bg-white shadow-inner">
-                      <table className="w-full text-xs text-slate-700 min-w-[850px] border-collapse">
+                      <table className="w-full text-xs text-slate-700 min-w-0 border-collapse">
                         <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 select-none">
                           <tr>
                             <th className="px-3 py-3 text-center font-extrabold uppercase tracking-wider w-12">No</th>
-                            <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider min-w-[200px]">Nama Sekolah</th>
+                            <th className="px-4 py-3 text-left font-extrabold uppercase tracking-wider min-w-[120px] sm:min-w-[200px]">Nama Sekolah</th>
                             <th className="px-4 py-3 text-center font-extrabold uppercase tracking-wider w-40 border-l border-slate-300 bg-amber-50/20 text-amber-900">Kelompok A (4-5 Thn)</th>
                             <th className="px-4 py-3 text-center font-extrabold uppercase tracking-wider w-40 bg-indigo-50/20 text-indigo-900 border-r border-slate-300">Kelompok B (5-6 Thn)</th>
                             <th className="px-4 py-3 text-center font-black uppercase tracking-wider w-28 bg-slate-100/50 text-slate-900">Total</th>
