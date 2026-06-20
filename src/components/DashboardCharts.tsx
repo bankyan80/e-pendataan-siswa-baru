@@ -22,9 +22,11 @@ interface DashboardChartsProps {
   id: string;
   siswaBaru: SiswaBaru[];
   alumni: AlumniSD[];
+  currentRole: string;
 }
 
-export default function DashboardCharts({ id, siswaBaru, alumni }: DashboardChartsProps) {
+export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: DashboardChartsProps) {
+  const isPenilik = currentRole === 'PENILIK';
   
   // 1. Calculate Pendaftar bY Jenjang
   const countJenjang = (jenjang: string) => {
@@ -39,11 +41,13 @@ export default function DashboardCharts({ id, siswaBaru, alumni }: DashboardChar
       }, 0);
   };
   
-  const dataJenjang = [
-    { name: 'KB (Kelompok Bermain)', value: countJenjang('KB'), fill: '#9333ea' }, // Purple
-    { name: 'TK (Taman Kanak-Kanak)', value: countJenjang('TK'), fill: '#3b82f6' }, // Blue
-    { name: 'SD (Sekolah Dasar)', value: countJenjang('SD'), fill: '#10b981' }, // Emerald
-  ];
+  const dataJenjang = isPenilik
+    ? [{ name: 'KB (Kelompok Bermain)', value: countJenjang('KB'), fill: '#9333ea' }]
+    : [
+        { name: 'KB (Kelompok Bermain)', value: countJenjang('KB'), fill: '#9333ea' },
+        { name: 'TK (Taman Kanak-Kanak)', value: countJenjang('TK'), fill: '#3b82f6' },
+        { name: 'SD (Sekolah Dasar)', value: countJenjang('SD'), fill: '#10b981' },
+      ];
 
   // 2. Calculate Jalur Pendaftaran (SD Only!)
   const countJalur = (jalur: string) => {
@@ -146,6 +150,7 @@ export default function DashboardCharts({ id, siswaBaru, alumni }: DashboardChar
       </div>
 
       {/* Chart 2: Jalur Pendaftaran SD */}
+      {!isPenilik && (
       <div className="p-5 bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl flex flex-col justify-between shadow-lg">
         <div className="space-y-1 mb-3">
           <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">Zonasi & Regulasi</span>
@@ -180,8 +185,10 @@ export default function DashboardCharts({ id, siswaBaru, alumni }: DashboardChar
           ))}
         </div>
       </div>
+      )}
 
       {/* Chart 3: Alumni SD Transition Rate */}
+      {!isPenilik && (
       <div className="p-5 bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl flex flex-col justify-between shadow-lg">
         <div className="space-y-1 mb-3">
           <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">Pemantauan Wajib Belajar</span>
@@ -224,6 +231,7 @@ export default function DashboardCharts({ id, siswaBaru, alumni }: DashboardChar
           ))}
         </div>
       </div>
+      )}
 
     </div>
   );
