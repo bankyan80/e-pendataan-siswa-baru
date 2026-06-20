@@ -1,0 +1,6 @@
+{
+  "name": "Sistem Pendataan Siswa Baru",
+  "description": "Aplikasi pendataan siswa baru (SD/TK/KB) dengan jalur pendaftaran, data alumni, status melanjutkan/tidak melanjutkan, export Excel, dan real-time monitoring dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
