@@ -530,26 +530,27 @@ export default function App() {
                   value={activeSchool}
                   onChange={(e) => setActiveSchool(e.target.value)}
                   className="px-3 py-1 bg-white/15 backdrop-blur-md font-bold text-[10px] uppercase tracking-wide border border-white/20 rounded-xl cursor-pointer text-white focus:bg-slate-900 focus:text-white focus:outline-none transition-all duration-200"
+                  style={{ colorScheme: 'dark' }}
                 >
-                  <option value="" className="text-slate-800">Semua Sekolah Kecamatan</option>
+                  <option value="" className="text-white">Semua Sekolah Kecamatan</option>
                   {jenjangFilter
                     ? LIST_SEKOLAH.filter(s => jenjangFilter.includes(s.jenjang)).map(s => (
-                        <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                        <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                       ))
                     : <>
-                        <optgroup label="Tingkat SD" className="text-slate-800">
+                        <optgroup label="Tingkat SD" className="text-slate-300">
                           {LIST_SEKOLAH.filter(s => s.jenjang === 'SD').map(s => (
-                            <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                            <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="Tingkat TK" className="text-slate-800">
+                        <optgroup label="Tingkat TK" className="text-slate-300">
                           {LIST_SEKOLAH.filter(s => s.jenjang === 'TK').map(s => (
-                            <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                            <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="Tingkat KB" className="text-slate-800">
+                        <optgroup label="Tingkat KB" className="text-slate-300">
                           {LIST_SEKOLAH.filter(s => s.jenjang === 'KB').map(s => (
-                            <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                            <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                           ))}
                         </optgroup>
                       </>
