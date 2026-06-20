@@ -1,4 +1,3 @@
-import { AlertTriangle, X } from 'lucide-react';
 
 interface ConfirmModalProps {
   open: boolean;
@@ -30,7 +29,7 @@ export default function ConfirmModal({
           <div className={`mx-auto w-14 h-14 rounded-full flex items-center justify-center ${
             variant === 'danger' ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600'
           }`}>
-            <AlertTriangle className="w-7 h-7" />
+            <img src="/logokab.png" className="w-7 h-7" />
           </div>
 
           <div className="space-y-2">

@@ -1,5 +1,4 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
@@ -28,7 +27,7 @@ export default class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen bg-gradient-to-br from-[#1a2a6c] via-[#b21f1f] to-[#fdbb2d] flex items-center justify-center p-6">
           <div className="bg-white/20 backdrop-blur-xl rounded-[2rem] p-8 max-w-md w-full border border-white/25 shadow-2xl text-center space-y-5">
             <div className="mx-auto w-16 h-16 rounded-full bg-red-500/30 flex items-center justify-center border border-red-400/30">
-              <AlertTriangle className="w-8 h-8 text-red-200" />
+              <img src="/logokab.png" className="w-8 h-8 text-red-200" />
             </div>
             <div className="space-y-2">
               <h2 className="text-xl font-black text-white">Terjadi Kesalahan</h2>
@@ -45,7 +44,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               onClick={() => window.location.reload()}
               className="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-800 rounded-2xl text-sm font-bold shadow-lg hover:bg-white/90 active:scale-95 transition-all"
             >
-              <RefreshCw className="w-4 h-4" />
+              <img src="/logokab.png" className="w-4 h-4" />
               Muat Ulang Halaman
             </button>
           </div>

@@ -29,17 +29,6 @@ import SiswaBaruPage from './components/SiswaBaruPage';
 import AlumniPage from './components/AlumniPage';
 import RekapSekolahPage from './components/RekapSekolahPage';
 
-// Icons
-import {
-  Signal,
-  Wifi,
-  BatteryMedium,
-  Building2,
-  Building,
-  Users,
-  GraduationCap,
-  BookOpen
-} from 'lucide-react';
 
 const generateId = (prefix: string): string => {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -326,9 +315,9 @@ export default function App() {
             <span className="text-[9px] bg-white/25 border border-white/25 px-1.5 py-0.5 rounded-full text-white font-black tracking-wider shadow-sm">
               PPDB 2026/2027
             </span>
-            <Wifi className="w-3.5 h-3.5" />
-            <Signal className="w-3.5 h-3.5" />
-            <BatteryMedium className="w-3.5 h-3.5" strokeWidth={2.5} />
+            <img src="/logokab.png" className="w-3.5 h-3.5" />
+            <img src="/logokab.png" className="w-3.5 h-3.5" />
+            <img src="/logokab.png" className="w-3.5 h-3.5" />
           </div>
         </div>
 
@@ -337,8 +326,8 @@ export default function App() {
           
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-white/25 rounded-2xl text-white border border-white/35 shadow-lg">
-                <Building2 className="w-[1.375rem] h-[1.375rem]" />
+              <div className="p-1.5 bg-white/25 rounded-2xl text-white border border-white/35 shadow-lg overflow-hidden">
+                <img src="/logokab.png" alt="Logo" className="w-8 h-8 object-contain" />
               </div>
               <div className="space-y-1">
                 <h1 className="text-base font-black tracking-wider text-white flex items-center gap-2">
@@ -550,7 +539,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <Building className="w-5 h-5" />
+            <img src="/logokab.png" className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Dashboard</span>
           </button>
 
@@ -562,7 +551,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <Users className="w-5 h-5" />
+            <img src="/logokab.png" className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Siswa Baru</span>
           </button>
 
@@ -574,7 +563,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <GraduationCap className="w-5 h-5" />
+            <img src="/logokab.png" className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Alumni & Transisi</span>
           </button>
 
@@ -586,7 +575,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <BookOpen className="w-5 h-5" />
+            <img src="/logokab.png" className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Rekap Unit</span>
           </button>
 
