@@ -17,10 +17,6 @@ import {
   INITIAL_LOGS,
   LIST_SEKOLAH
 } from './data/initialData';
-import {
-  exportSiswaBaruToCSV,
-  exportAlumniToCSV
-} from './utils/excelExport';
 
 // Components
 import ConfirmModal from './components/ConfirmModal';
@@ -490,8 +486,6 @@ export default function App() {
               alumni={filteredAlumni}
               activeSchool={activeSchool}
               kpis={kpis}
-              onExportSiswa={() => exportSiswaBaruToCSV(filteredSiswaBaru)}
-              onExportAlumni={() => exportAlumniToCSV(filteredAlumni)}
             />
           )}
 

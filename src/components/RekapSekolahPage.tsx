@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SiswaBaru, AlumniSD, RekapKelasSD } from '../types';
 import { LIST_SEKOLAH } from '../data/initialData';
-import { exportSiswaBaruToCSV } from '../utils/excelExport';
-import { School, Download, Save } from 'lucide-react';
+import { School, Save } from 'lucide-react';
 
 const STORAGE_KEY = 'rekap_kelas_sd';
 
@@ -86,24 +85,6 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
     };
   });
 
-  const exportKelulusanToCSV = () => {
-    let csv = 'No,NPSN,Nama Sekolah,Kecamatan,Lulus Melanjutkan,Lulus Tidak Melanjutkan,Lulus Jumlah,Tidak Lulus,Jumlah\n';
-    rekapKelulusanData.forEach(row => {
-      csv += `"${row.no}","${row.npsn}","${row.namaSekolah}","${row.kecamatan}","${row.melanjutkan}","${row.tidakMelanjutkan}","${row.lulusJumlah}","${row.tidakLulus}","${row.jumlah}"\n`;
-    });
-    csv += `,,,,${grandTotalMelanjutkan},${grandTotalTidakMelanjutkan},${grandTotalLulusJumlah},${grandTotalTidakLulus},${grandTotalJumlah}\n`;
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'REKAPITULASI_KELULUSAN_LEMAHABANG.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   return (
     <div className="space-y-4 animate-fade-in pb-12">
       {/* Header widget */}
@@ -117,18 +98,6 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
             <p className="text-xs text-white/75 font-medium">
               Rangkuman performa statistik kelulusan & pendaftaran siswa baru se-Kecamatan Lemahabang TP 2026/2027
             </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              onClick={rekapTab === 'lulus' ? exportKelulusanToCSV : () => {
-                const filtered = activeSchool ? siswaBaru.filter(s => s.sekolahTujuan === activeSchool) : siswaBaru;
-                exportSiswaBaruToCSV(filtered);
-              }}
-              className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-2xl text-xs font-black transition shadow-lg hover:brightness-110 active:scale-95 flex items-center gap-1.5"
-            >
-              <Download className="w-4 h-4" /> Export CSV / Excel
-            </button>
           </div>
         </div>
 

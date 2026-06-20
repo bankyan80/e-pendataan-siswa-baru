@@ -1,4 +1,4 @@
-import { Users, GraduationCap, TrendingUp, School, Download, FileSpreadsheet } from 'lucide-react';
+import { Users, GraduationCap, TrendingUp, School } from 'lucide-react';
 import { SiswaBaru, AlumniSD } from '../types';
 import MetricCard from './MetricCard';
 import DashboardCharts from './DashboardCharts';
@@ -20,12 +20,10 @@ interface DashboardPageProps {
     notContinuing: number;
     transitionRate: number;
   };
-  onExportSiswa: () => void;
-  onExportAlumni: () => void;
 }
 
 export default function DashboardPage(props: DashboardPageProps) {
-  const { siswaBaru, alumni, activeSchool, kpis, onExportSiswa, onExportAlumni } = props;
+  const { siswaBaru, alumni, activeSchool, kpis } = props;
 
   return (
     <div className="space-y-6">
@@ -38,23 +36,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             Sistem validasi terintegrasi untuk pendaftar baru SD/TK/KB, alumni lanjut sekolah, serta rekapitulasi tim kerja sub-dinas kecamatan.
           </p>
         </div>
-        {/* Excel Quick-Export Cluster */}
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={onExportSiswa}
-            className="flex items-center gap-1.5 px-4 py-2 bg-white text-slate-800 rounded-2xl text-xs font-bold shadow-lg hover:bg-white/95 active:scale-95 transition-all"
-          >
-            <Download className="w-3.5 h-3.5 text-indigo-700" />
-            Ekspor Excel Pendaftar
-          </button>
-          <button
-            onClick={onExportAlumni}
-            className="flex items-center gap-1.5 px-4 py-2 bg-green-500/80 hover:bg-green-600 text-white rounded-2xl text-xs font-bold shadow-lg active:scale-95 border border-white/25 transition-all backdrop-blur-md"
-          >
-            <FileSpreadsheet className="w-3.5 h-3.5" />
-            Ekspor Excel Alumni
-          </button>
-        </div>
+        
       </div>
 
       {/* Master KPI Row - Dynamically filters for active context */}
