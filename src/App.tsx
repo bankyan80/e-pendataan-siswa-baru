@@ -83,20 +83,13 @@ export default function App() {
     });
   });
 
-  const [currentRole, setCurrentRole] = useState<UserRole>('ADMIN_DINAS');
+  const [currentRole, setCurrentRole] = useState<UserRole>('PUBLIK');
   
   const [activeSchool, setActiveSchool] = useState<string>('');
 
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [pendingRole, setPendingRole] = useState<UserRole | null>('ADMIN_DINAS'); // show PIN on mount
+  const [pendingRole, setPendingRole] = useState<UserRole | null>(null);
   const [pinAuthenticated, setPinAuthenticated] = useState(false);
-
-  // Show PIN modal on initial mount
-  useEffect(() => {
-    if (!pinAuthenticated) {
-      setShowLoginModal(true);
-    }
-  }, [pinAuthenticated]);
   
   const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PENILIK' || currentRole === 'PUBLIK' || currentRole === 'KEPALA_SEKOLAH' || (currentRole === 'OPERATOR_SEKOLAH' && !activeSchool);
   
