@@ -95,11 +95,6 @@ export default function LoginModal({ role, onSuccess, onCancel }: LoginModalProp
             </div>
           )}
 
-          <p className="text-[10px] text-slate-500 font-medium text-center leading-relaxed">
-            {role === 'ADMIN_DINAS'
-              ? <>PIN Admin Dinas: <span className="text-slate-300 font-bold">637238</span></>
-              : <>Masukkan NPSN sekolah sebagai PIN. Contoh: <span className="text-slate-300 font-bold">20215216</span></>}
-          </p>
 
           <button
             type="submit"
