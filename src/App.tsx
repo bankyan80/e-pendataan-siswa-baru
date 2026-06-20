@@ -17,6 +17,16 @@ import {
   INITIAL_LOGS,
   LIST_SEKOLAH
 } from './data/initialData';
+import {
+  fetchSiswaBaru,
+  fetchAlumni,
+  fetchLogs,
+  upsertSiswaBaru,
+  upsertAlumni,
+  upsertLogs,
+  deleteSiswaBaru as dbDeleteSiswaBaru,
+  deleteAlumni as dbDeleteAlumni,
+} from './services/database';
 
 // Components
 import ConfirmModal from './components/ConfirmModal';
@@ -43,45 +53,10 @@ const generateId = (prefix: string): string => {
 
 export default function App() {
   // --- STATE ---
-  const [siswaBaru, setSiswaBaru] = useState<SiswaBaru[]>(() => {
-    const saved = localStorage.getItem('siswa_baru_real');
-    let loaded: SiswaBaru[];
-    try { loaded = saved ? JSON.parse(saved) : INITIAL_SISWA_BARU; } catch { loaded = INITIAL_SISWA_BARU; }
-    
-    // Prune legacy schools that are no longer in LIST_SEKOLAH
-    const validNames = new Set(LIST_SEKOLAH.map(s => s.nama));
-    loaded = loaded.filter(s => s && validNames.has(s.sekolahTujuan));
-
-    // Append reports for any of the 23 new TK/KB schools that might be missing from the loaded array
-    const existingReports = new Set(loaded.map(s => s.sekolahTujuan));
-    const missingReports = INITIAL_SISWA_BARU.filter(s => s && !existingReports.has(s.sekolahTujuan));
-    if (missingReports.length > 0) {
-      loaded = [...loaded, ...missingReports];
-    }
-    return loaded;
-  });
-
-  const [alumni, setAlumni] = useState<AlumniSD[]>(() => {
-    const saved = localStorage.getItem('alumni_sd_real');
-    try { return saved ? JSON.parse(saved) : INITIAL_ALUMNI; } catch { return INITIAL_ALUMNI; }
-  });
-
-  const [logs, setLogs] = useState<ActivityLog[]>(() => {
-    const saved = localStorage.getItem('activity_logs_real');
-    let parsed: ActivityLog[];
-    try { parsed = saved ? JSON.parse(saved) : INITIAL_LOGS; } catch { parsed = INITIAL_LOGS; }
-    const seenIds = new Set<string>();
-    return parsed.map(log => {
-      if (!log.id || seenIds.has(log.id)) {
-        return {
-          ...log,
-          id: `${log.id || 'log'}_temp_${Math.random().toString(36).substring(2, 9)}`
-        };
-      }
-      seenIds.add(log.id);
-      return log;
-    });
-  });
+  const [siswaBaru, setSiswaBaru] = useState<SiswaBaru[]>([]);
+  const [alumni, setAlumni] = useState<AlumniSD[]>([]);
+  const [logs, setLogs] = useState<ActivityLog[]>([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const [currentRole, setCurrentRole] = useState<UserRole>('PUBLIK');
   
@@ -119,18 +94,73 @@ export default function App() {
   const noopEditSiswa = useCallback(function (_s: SiswaBaru | null) {}, []);
   const noopEditAlumni = useCallback(function (_a: AlumniSD | null) {}, []);
 
-  // --- LOCAL PERSISTENCE ---
+  // --- LOAD DATA FROM BACKEND ---
   useEffect(() => {
-    try { localStorage.setItem('siswa_baru_real', JSON.stringify(siswaBaru)); } catch {}
-  }, [siswaBaru]);
+    let cancelled = false;
+    async function load() {
+      try {
+        const [fetchedSiswa, fetchedAlumni, fetchedLogs] = await Promise.all([
+          fetchSiswaBaru(),
+          fetchAlumni(),
+          fetchLogs(),
+        ]);
+        if (cancelled) return;
+
+        // Seed initial data if backend is empty
+        const finalSiswa = fetchedSiswa.length > 0 ? fetchedSiswa : INITIAL_SISWA_BARU;
+        const finalAlumni = fetchedAlumni.length > 0 ? fetchedAlumni : INITIAL_ALUMNI;
+        const finalLogs = fetchedLogs.length > 0 ? fetchedLogs : INITIAL_LOGS;
+
+        // If we seeded, push to backend
+        if (fetchedSiswa.length === 0 && INITIAL_SISWA_BARU.length > 0) {
+          upsertSiswaBaru(INITIAL_SISWA_BARU).catch(() => {});
+        }
+        if (fetchedAlumni.length === 0 && INITIAL_ALUMNI.length > 0) {
+          upsertAlumni(INITIAL_ALUMNI).catch(() => {});
+        }
+
+        setSiswaBaru(finalSiswa);
+        setAlumni(finalAlumni);
+        setLogs(finalLogs);
+      } catch {
+        // Fallback to localStorage if backend fails
+        const saved = localStorage.getItem('siswa_baru_real');
+        try {
+          const local: SiswaBaru[] = saved ? JSON.parse(saved) : INITIAL_SISWA_BARU;
+          const validNames = new Set(LIST_SEKOLAH.map(s => s.nama));
+          const filtered = local.filter(s => s && validNames.has(s.sekolahTujuan));
+          const existing = new Set(filtered.map(s => s.sekolahTujuan));
+          const missing = INITIAL_SISWA_BARU.filter(s => s && !existing.has(s.sekolahTujuan));
+          setSiswaBaru(missing.length > 0 ? [...filtered, ...missing] : filtered);
+        } catch { setSiswaBaru(INITIAL_SISWA_BARU); }
+
+        try { setAlumni(saved ? JSON.parse(localStorage.getItem('alumni_sd_real') || '[]') : INITIAL_ALUMNI); } catch { setAlumni(INITIAL_ALUMNI); }
+        try { setLogs(saved ? JSON.parse(localStorage.getItem('activity_logs_real') || '[]') : INITIAL_LOGS); } catch { setLogs(INITIAL_LOGS); }
+      }
+      if (!cancelled) setDataLoaded(true);
+    }
+    load();
+    return () => { cancelled = true; };
+  }, []);
+
+  // --- PERSIST TO BACKEND ON CHANGE ---
+  useEffect(() => {
+    if (!dataLoaded) return;
+    localStorage.setItem('siswa_baru_real', JSON.stringify(siswaBaru));
+    upsertSiswaBaru(siswaBaru).catch(() => {});
+  }, [siswaBaru, dataLoaded]);
 
   useEffect(() => {
-    try { localStorage.setItem('alumni_sd_real', JSON.stringify(alumni)); } catch {}
-  }, [alumni]);
+    if (!dataLoaded) return;
+    localStorage.setItem('alumni_sd_real', JSON.stringify(alumni));
+    upsertAlumni(alumni).catch(() => {});
+  }, [alumni, dataLoaded]);
 
   useEffect(() => {
-    try { localStorage.setItem('activity_logs_real', JSON.stringify(logs)); } catch {}
-  }, [logs]);
+    if (!dataLoaded) return;
+    localStorage.setItem('activity_logs_real', JSON.stringify(logs));
+    upsertLogs(logs).catch(() => {});
+  }, [logs, dataLoaded]);
 
   useEffect(() => {
     try { localStorage.setItem('active_tab', activeTab); } catch {}
@@ -238,6 +268,7 @@ export default function App() {
 
   const handleDeleteStudent = (id: string, schoolName: string, school: string) => {
     setSiswaBaru(prev => prev.filter(s => s.id !== id));
+    dbDeleteSiswaBaru(id).catch(() => {});
     const newLog: ActivityLog = {
       id: generateId('log'),
       timestamp: new Date().toISOString(),
@@ -245,6 +276,21 @@ export default function App() {
       actorName: currentRole === 'ADMIN_DINAS' ? 'Kecamatan Dinas' : `Kepala Sekolah (${school})`,
       action: 'Hapus Data',
       detail: `Menghapus rekapitulasi pendaftar baru dari ${schoolName}.`,
+      type: 'danger'
+    };
+    setLogs(prev => [newLog, ...prev]);
+  };
+
+  const handleDeleteAlumni = (id: string, name: string, school: string) => {
+    setAlumni(prev => prev.filter(a => a.id !== id));
+    dbDeleteAlumni(id).catch(() => {});
+    const newLog: ActivityLog = {
+      id: generateId('log'),
+      timestamp: new Date().toISOString(),
+      role: currentRole,
+      actorName: `Admin (${school})`,
+      action: 'Hapus Alumni',
+      detail: `Menghapus data alumni ${name}.`,
       type: 'danger'
     };
     setLogs(prev => [newLog, ...prev]);
@@ -277,20 +323,6 @@ export default function App() {
       };
       setLogs(prev => [newLog, ...prev]);
     }
-  };
-
-  const handleDeleteAlumni = (id: string, name: string, school: string) => {
-    setAlumni(prev => prev.filter(a => a.id !== id));
-    const newLog: ActivityLog = {
-      id: generateId('log'),
-      timestamp: new Date().toISOString(),
-      role: currentRole,
-      actorName: `Admin (${school})`,
-      action: 'Hapus Alumni',
-      detail: `Menghapus data alumni berkelanjutan ${name}.`,
-      type: 'danger'
-    };
-    setLogs(prev => [newLog, ...prev]);
   };
 
   // Switch role and update UI context safely
