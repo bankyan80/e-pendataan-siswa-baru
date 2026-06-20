@@ -479,37 +479,37 @@ export default function App() {
           </div>
 
           {/* Role Status and school switcher belt with Sleek Glass container */}
-          <div className="p-3.5 bg-black/15 backdrop-blur-md border border-white/15 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 shadow-inner">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <div className="p-1 px-3 bg-white/20 text-white rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
-                Akses Peran:
+          <div className="p-2 md:p-3.5 bg-black/15 backdrop-blur-md border border-white/15 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 md:gap-3 shadow-inner">
+            <div className="flex items-center gap-1.5 md:gap-2.5 min-w-0">
+              <div className="shrink-0 p-1 px-2 md:px-3 bg-white/20 text-white rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest border border-white/20">
+                Peran:
               </div>
               
               {/* Role Select Buttons with beautiful white glass states */}
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex gap-1 md:gap-1.5 overflow-x-auto flex-nowrap pb-0.5 scrollbar-none">
                 <button
                   onClick={() => handleRoleChange('ADMIN_DINAS')}
-                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-2.5 md:px-3.5 py-1 md:py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'ADMIN_DINAS'
                       ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
                   }`}
                 >
-                  Admin Dinas
+                  Admin
                 </button>
                 <button
                   onClick={() => handleRoleChange('KEPALA_SEKOLAH')}
-                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-2.5 md:px-3.5 py-1 md:py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'KEPALA_SEKOLAH'
                       ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
                   }`}
                 >
-                  Kepala Sekolah
+                  Kepsek
                 </button>
                 <button
                   onClick={() => handleRoleChange('OPERATOR_SEKOLAH')}
-                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-2.5 md:px-3.5 py-1 md:py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'OPERATOR_SEKOLAH'
                       ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
@@ -519,7 +519,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => handleRoleChange('PENGAWAS_SEKOLAH')}
-                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-2.5 md:px-3.5 py-1 md:py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'PENGAWAS_SEKOLAH'
                       ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
@@ -529,7 +529,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => handleRoleChange('PENILIK')}
-                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-2.5 md:px-3.5 py-1 md:py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'PENILIK'
                       ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
@@ -539,7 +539,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => handleRoleChange('PUBLIK')}
-                  className={`px-3.5 py-1.5 rounded-full text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
+                  className={`shrink-0 px-2.5 md:px-3.5 py-1 md:py-1.5 rounded-full text-[9px] md:text-[10px] font-black tracking-wider uppercase transition-all duration-300 ${
                     currentRole === 'PUBLIK'
                       ? 'bg-white text-slate-800 font-bold shadow-lg scale-[1.02] border border-white'
                       : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
@@ -552,51 +552,51 @@ export default function App() {
 
             {/* Scope info & school filters */}
             {currentRole !== 'PENGAWAS_SEKOLAH' && currentRole !== 'PENILIK' && (
-            <div className="flex items-center gap-1.5">
-              <span className="text-[10px] font-black text-white/70 uppercase tracking-wider">Cakupan Unit:</span>
+            <div className="flex items-center gap-1 md:gap-1.5 shrink-0">
+              <span className="text-[9px] md:text-[10px] font-black text-white/70 uppercase tracking-wider whitespace-nowrap">Unit:</span>
               
               {currentRole === 'KEPALA_SEKOLAH' || currentRole === 'OPERATOR_SEKOLAH' ? (
                 activeSchool ? (
-                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1.5 bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg truncate max-w-[180px] sm:max-w-xs">
+                  <div className="flex items-center gap-1 md:gap-2 min-w-0">
+                    <span className="px-2 md:px-3 py-1 md:py-1.5 bg-white/20 text-white text-[9px] md:text-[10px] font-bold uppercase tracking-wider rounded-lg truncate max-w-[120px] sm:max-w-[180px] md:max-w-xs">
                       {activeSchool}
                     </span>
                     <button
                       onClick={handleLogout}
-                      className="px-2.5 py-1.5 rounded-lg bg-rose-500/30 text-rose-200 text-[10px] font-black uppercase tracking-wider hover:bg-rose-500/50 transition-all border border-rose-400/30"
+                      className="px-2 md:px-2.5 py-1 md:py-1.5 rounded-lg bg-rose-500/30 text-rose-200 text-[9px] md:text-[10px] font-black uppercase tracking-wider hover:bg-rose-500/50 transition-all border border-rose-400/30"
                     >
                       Keluar
                     </button>
                   </div>
                 ) : (
-                  <div className="px-3 py-1.5 bg-white/10 text-white/60 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/10">
-                    Login dulu...
+                  <div className="px-2 md:px-3 py-1 md:py-1.5 bg-white/10 text-white/60 text-[9px] md:text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/10 whitespace-nowrap">
+                    Login dulu
                   </div>
                 )
               ) : (
                 <select
                   value={activeSchool}
                   onChange={(e) => setActiveSchool(e.target.value)}
-                  className="px-3 py-1 bg-white/15 backdrop-blur-md font-bold text-[10px] uppercase tracking-wide border border-white/20 rounded-xl cursor-pointer text-white focus:bg-slate-900 focus:text-white focus:outline-none transition-all duration-200"
+                  className="px-2 md:px-3 py-1 bg-white/15 backdrop-blur-md font-bold text-[9px] md:text-[10px] uppercase tracking-wide border border-white/20 rounded-xl cursor-pointer text-white focus:bg-slate-900 focus:text-white focus:outline-none transition-all duration-200 max-w-[160px] sm:max-w-full"
                   style={{ colorScheme: 'dark' }}
                 >
-                  <option value="" className="text-white">Semua Sekolah Kecamatan</option>
+                  <option value="" className="text-white">Semua Sekolah</option>
                   {jenjangFilter
                     ? LIST_SEKOLAH.filter(s => jenjangFilter.includes(s.jenjang)).map(s => (
                         <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                       ))
                     : <>
-                        <optgroup label="Tingkat SD" className="text-slate-300">
+                        <optgroup label="SD" className="text-slate-300">
                           {LIST_SEKOLAH.filter(s => s.jenjang === 'SD').map(s => (
                             <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="Tingkat TK" className="text-slate-300">
+                        <optgroup label="TK" className="text-slate-300">
                           {LIST_SEKOLAH.filter(s => s.jenjang === 'TK').map(s => (
                             <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="Tingkat KB" className="text-slate-300">
+                        <optgroup label="KB" className="text-slate-300">
                           {LIST_SEKOLAH.filter(s => s.jenjang === 'KB').map(s => (
                             <option key={s.id} value={s.nama} className="text-white">{s.nama}</option>
                           ))}
