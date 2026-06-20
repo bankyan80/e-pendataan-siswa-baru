@@ -6,6 +6,16 @@
 import { useState, useMemo } from 'react';
 import { AlumniSD, UserRole } from '../types';
 import AlumniForm from './AlumniForm';
+import {
+  GraduationCap,
+  Plus,
+  Search,
+  CheckCircle2,
+  AlertCircle,
+  Edit2,
+  Trash2,
+  Info
+} from 'lucide-react';
 
 interface AlumniPageProps {
   alumni: AlumniSD[];
@@ -51,7 +61,7 @@ export default function AlumniPage(props: AlumniPageProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/15 backdrop-blur-md p-5 border border-white/20 rounded-3xl text-white shadow-xl">
         <div>
           <h3 className="text-sm font-black text-white flex items-center gap-2 tracking-wide uppercase">
-            <img src="/logokab.png" className="w-5 h-5 text-[#fdbb2d]" />
+            <GraduationCap className="w-5 h-5 text-[#fdbb2d]" />
             Pencatatan & Tracing Alumni SD
           </h3>
           <p className="text-xs text-white/75 font-medium">
@@ -67,7 +77,7 @@ export default function AlumniPage(props: AlumniPageProps) {
             }}
             className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-white text-slate-800 rounded-2xl text-xs font-black transition shadow-lg hover:bg-white/90 active:scale-95"
           >
-            <img src="/logokab.png" className="w-4 h-4 text-amber-600" />
+            <Plus className="w-4 h-4 text-amber-600" />
             Tambah Data Alumni Lulus
           </button>
         )}
@@ -94,7 +104,7 @@ export default function AlumniPage(props: AlumniPageProps) {
 
       <div className="bg-white/20 backdrop-blur-md p-4 border border-white/25 rounded-3xl grid grid-cols-1 sm:grid-cols-3 gap-3 shadow-lg">
         <div className="relative">
-          <img src="/logokab.png" className="absolute left-3 top-2.5 w-4 h-4 text-white/60" />
+          <Search className="absolute left-3 top-2.5 w-4 h-4 text-white/60" />
           <input
             type="text"
             value={alumniSearch}
@@ -144,13 +154,13 @@ export default function AlumniPage(props: AlumniPageProps) {
                   <p>NIK: <span className="text-slate-800 font-bold">{alum.nik}</span> • Lulusan: <strong className="text-slate-700">{alum.sekolahAsal}</strong> ({alum.tahunLulus})</p>
                   {alum.status === 'Melanjutkan' ? (
                     <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-xl text-xs font-bold border border-emerald-200 shadow-sm mt-1">
-                      <img src="/logokab.png" className="w-3.5 h-3.5 text-emerald-600" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                       Melanjutkan: {alum.tujuanSekolah}
                     </div>
                   ) : (
                     <div className="inline-flex flex-col gap-1.5 px-3 py-2 bg-rose-100 text-rose-800 rounded-xl text-xs font-semibold border border-rose-200 shadow-sm mt-1">
                       <span className="font-bold flex items-center gap-1">
-                        <img src="/logokab.png" className="w-3.5 h-3.5 text-rose-600" />
+                        <AlertCircle className="w-3.5 h-3.5 text-rose-600" />
                         Tidak Melanjutkan Sekolah
                       </span>
                       <span className="text-[11px] text-rose-700 italic font-sans font-medium pl-5 leading-relaxed">Alasan: {alum.alasanTidakMelanjutkan}</span>
@@ -183,13 +193,13 @@ export default function AlumniPage(props: AlumniPageProps) {
                       className="p-2.5 text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all duration-200 hover:scale-105"
                       title="Edit Data"
                     >
-                      <img src="/logokab.png" className="w-4 h-4" />
+                      <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDeleteAlumni(alum.id, alum.nama, alum.sekolahAsal)}
                       className="p-2.5 text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-200 hover:scale-105"
                     >
-                      <img src="/logokab.png" className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </>
                 ) : (
@@ -201,7 +211,7 @@ export default function AlumniPage(props: AlumniPageProps) {
                     }}
                     className="p-2 text-indigo-600 hover:bg-slate-50 rounded-xl flex items-center gap-1 text-xs font-bold"
                   >
-                    <img src="/logokab.png" className="w-4 h-4" /> Detail
+                    <Info className="w-4 h-4" /> Detail
                   </button>
                 )}
               </div>

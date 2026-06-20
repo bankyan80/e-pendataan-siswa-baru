@@ -1,3 +1,4 @@
+import { Users, GraduationCap, TrendingUp, School, Download, FileSpreadsheet } from 'lucide-react';
 import { SiswaBaru, AlumniSD, ActivityLog } from '../types';
 import MetricCard from './MetricCard';
 import ActivityFeed from './ActivityFeed';
@@ -45,14 +46,14 @@ export default function DashboardPage(props: DashboardPageProps) {
             onClick={onExportSiswa}
             className="flex items-center gap-1.5 px-4 py-2 bg-white text-slate-800 rounded-2xl text-xs font-bold shadow-lg hover:bg-white/95 active:scale-95 transition-all"
           >
-            <img src="/logokab.png" className="w-3.5 h-3.5 text-indigo-700" />
+            <Download className="w-3.5 h-3.5 text-indigo-700" />
             Ekspor Excel Pendaftar
           </button>
           <button
             onClick={onExportAlumni}
             className="flex items-center gap-1.5 px-4 py-2 bg-green-500/80 hover:bg-green-600 text-white rounded-2xl text-xs font-bold shadow-lg active:scale-95 border border-white/25 transition-all backdrop-blur-md"
           >
-            <img src="/logokab.png" className="w-3.5 h-3.5" />
+            <FileSpreadsheet className="w-3.5 h-3.5" />
             Ekspor Excel Alumni
           </button>
         </div>
@@ -65,6 +66,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           title="Total Siswa Baru"
           value={kpis.totalNew}
           subtitle={activeSchool ? 'Khusus sekolah aktif' : 'KB + TK + SD'}
+          icon={Users}
           color="blue"
         />
         <MetricCard
@@ -72,6 +74,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           title="SD (Sekolah Dasar)"
           value={kpis.totalSD}
           subtitle="Tingkat Dasmen"
+          icon={School}
           color="emerald"
         />
         <MetricCard
@@ -79,6 +82,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           title="TK & KB (PAUD)"
           value={kpis.totalTK + kpis.totalKB}
           subtitle={`TK: ${kpis.totalTK} | KB: ${kpis.totalKB}`}
+          icon={GraduationCap}
           color="indigo"
         />
         <MetricCard
@@ -86,6 +90,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           title="Transisi Alumni SD"
           value={`${kpis.transitionRate}%`}
           subtitle={`${kpis.continuing} dari ${kpis.alumnCount} siswa Melanjutkan`}
+          icon={TrendingUp}
           color="amber"
         />
       </div>

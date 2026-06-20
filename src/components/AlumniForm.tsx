@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { AlumniSD, UserRole } from '../types';
 import { LIST_SEKOLAH } from '../data/initialData';
+import { X, Check, AlertCircle } from 'lucide-react';
 
 interface AlumniFormProps {
   id: string;
@@ -135,7 +136,7 @@ export default function AlumniForm({
             onClick={onClose}
             className="p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 transition"
           >
-            <img src="/logokab.png" className="w-5 h-5" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -157,7 +158,7 @@ export default function AlumniForm({
             />
             {errors.nama && (
               <span className="text-xs text-rose-600 flex items-center gap-1">
-                <img src="/logokab.png" className="w-3.5 h-3.5" /> {errors.nama}
+                <AlertCircle className="w-3.5 h-3.5" /> {errors.nama}
               </span>
             )}
           </div>
@@ -179,7 +180,7 @@ export default function AlumniForm({
               />
               {errors.nik && (
                 <span className="text-xs text-rose-600 flex items-center gap-1">
-                  <img src="/logokab.png" className="w-3.5 h-3.5" /> {errors.nik}
+                  <AlertCircle className="w-3.5 h-3.5" /> {errors.nik}
                 </span>
               )}
             </div>

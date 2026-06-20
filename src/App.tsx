@@ -29,6 +29,16 @@ import SiswaBaruPage from './components/SiswaBaruPage';
 import AlumniPage from './components/AlumniPage';
 import RekapSekolahPage from './components/RekapSekolahPage';
 
+// Icons
+import {
+  Signal,
+  Wifi,
+  BatteryMedium,
+  Building,
+  Users,
+  GraduationCap,
+  BookOpen
+} from 'lucide-react';
 
 const generateId = (prefix: string): string => {
   return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -315,9 +325,9 @@ export default function App() {
             <span className="text-[9px] bg-white/25 border border-white/25 px-1.5 py-0.5 rounded-full text-white font-black tracking-wider shadow-sm">
               PPDB 2026/2027
             </span>
-            <img src="/logokab.png" className="w-3.5 h-3.5" />
-            <img src="/logokab.png" className="w-3.5 h-3.5" />
-            <img src="/logokab.png" className="w-3.5 h-3.5" />
+            <Wifi className="w-3.5 h-3.5" />
+            <Signal className="w-3.5 h-3.5" />
+            <BatteryMedium className="w-3.5 h-3.5" strokeWidth={2.5} />
           </div>
         </div>
 
@@ -539,7 +549,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <img src="/logokab.png" className="w-5 h-5" />
+            <Building className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Dashboard</span>
           </button>
 
@@ -551,7 +561,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <img src="/logokab.png" className="w-5 h-5" />
+            <Users className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Siswa Baru</span>
           </button>
 
@@ -563,7 +573,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <img src="/logokab.png" className="w-5 h-5" />
+            <GraduationCap className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Alumni & Transisi</span>
           </button>
 
@@ -575,7 +585,7 @@ export default function App() {
                 : 'text-white/50 hover:text-white'
             }`}
           >
-            <img src="/logokab.png" className="w-5 h-5" />
+            <BookOpen className="w-5 h-5" />
             <span className="text-[10px] tracking-tight uppercase font-bold">Rekap Unit</span>
           </button>
 

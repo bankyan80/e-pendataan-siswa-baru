@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { SiswaBaru, AlumniSD, RekapKelasSD } from '../types';
 import { LIST_SEKOLAH } from '../data/initialData';
 import { exportSiswaBaruToCSV } from '../utils/excelExport';
+import { School, Download, Save } from 'lucide-react';
 
 const STORAGE_KEY = 'rekap_kelas_sd';
 
@@ -110,7 +111,7 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="space-y-1">
             <h3 className="text-sm font-black text-white flex items-center gap-2 tracking-wide uppercase">
-              <img src="/logokab.png" className="w-5 h-5 text-[#fdbb2d]" />
+              <School className="w-5 h-5 text-[#fdbb2d]" />
               Rekapitulasi Data Lembaga & Kelulusan SD
             </h3>
             <p className="text-xs text-white/75 font-medium">
@@ -126,7 +127,7 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
               }}
               className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-2xl text-xs font-black transition shadow-lg hover:brightness-110 active:scale-95 flex items-center gap-1.5"
             >
-              <img src="/logokab.png" className="w-4 h-4" /> Export CSV / Excel
+              <Download className="w-4 h-4" /> Export CSV / Excel
             </button>
           </div>
         </div>
@@ -397,7 +398,7 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
             </div>
             <div className="p-4 bg-slate-100/50 text-slate-600 text-[11px] border-t border-slate-200 flex items-center justify-between font-bold gap-2">
               <span>Data disimpan otomatis ke penyimpanan lokal.</span>
-              <span className="text-indigo-700"><img src="/logokab.png" className="w-3.5 h-3.5 inline mr-1" />Tersimpan</span>
+              <span className="text-indigo-700"><Save className="w-3.5 h-3.5 inline mr-1" />Tersimpan</span>
             </div>
           </div>
         </div>

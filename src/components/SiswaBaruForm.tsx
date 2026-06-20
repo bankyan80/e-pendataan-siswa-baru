@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { SiswaBaru, Jenjang, StatusVerifikasi, UserRole } from '../types';
 import { LIST_SEKOLAH } from '../data/initialData';
+import { X, AlertCircle, Info, Calendar, School, Check } from 'lucide-react';
 
 interface SiswaBaruFormProps {
   id: string;
@@ -180,7 +181,7 @@ export default function SiswaBaruForm({
         <div className="p-5 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900/50">
           <div className="space-y-1">
             <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <img src="/logokab.png" className="w-5 h-5 text-indigo-600" />
+              <School className="w-5 h-5 text-indigo-600" />
               {isEdit ? 'Ubah Rekap Pendaftar' : 'Tambah Rekap Pendaftaran baru'}
             </h3>
             <p className="text-xs text-slate-600 font-medium">Input Rekapitulasi Siswa Baru TP 2026/2027</p>
@@ -190,7 +191,7 @@ export default function SiswaBaruForm({
             onClick={onClose}
             className="p-2 rounded-2xl bg-slate-800 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 transition"
           >
-            <img src="/logokab.png" className="w-5 h-5" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -199,7 +200,7 @@ export default function SiswaBaruForm({
           
           {/* Information banner */}
           <div className="p-3.5 bg-indigo-50 border border-indigo-100 rounded-2xl text-slate-700 text-xs flex gap-2.5 items-start">
-            <img src="/logokab.png" className="w-4 h-4 text-indigo-600 mt-0.5 flex-shrink-0" />
+            <Info className="w-4 h-4 text-indigo-600 mt-0.5 flex-shrink-0" />
             <div className="space-y-1">
               <p className="font-extrabold text-indigo-950">Aturan Pendataan Pokok:</p>
               <ul className="list-disc pl-4 space-y-0.5 font-medium text-slate-600">
@@ -255,7 +256,7 @@ export default function SiswaBaruForm({
             )}
             {errors.sekolahTujuan && (
               <span className="text-xs text-rose-600 flex items-center gap-1 font-bold">
-                <img src="/logokab.png" className="w-3.5 h-3.5" /> {errors.sekolahTujuan}
+                <AlertCircle className="w-3.5 h-3.5" /> {errors.sekolahTujuan}
               </span>
             )}
           </div>
@@ -362,13 +363,13 @@ export default function SiswaBaruForm({
 
                 {isMismatch ? (
                   <div className="p-2.5 bg-red-100 border border-red-200 rounded-xl text-[11px] text-red-800 font-bold flex gap-1.5 items-center">
-                    <img src="/logokab.png" className="w-4 h-4 text-red-600 flex-shrink-0" />
+                    <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
                     <span>L/P ({sumGender}) dan Jumlah Jalur ({sumJalur}) berbeda! Sesuaikan agar seimbang.</span>
                   </div>
                 ) : (
                   sumGender > 0 && (
                     <div className="p-2 bg-emerald-100 border border-emerald-200 rounded-xl text-[11px] text-emerald-800 font-bold flex gap-1.5 items-center justify-center">
-                      <img src="/logokab.png" className="w-4 h-4 text-emerald-700" />
+                      <Check className="w-4 h-4 text-emerald-700" />
                       <span>Data Gender & Jalur Terpenuhi & Seimbang</span>
                     </div>
                   )
@@ -501,14 +502,14 @@ export default function SiswaBaruForm({
 
           {errors.totals && (
             <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-extrabold flex gap-2 items-center">
-              <img src="/logokab.png" className="w-4 h-4 text-rose-600" />
+              <AlertCircle className="w-4 h-4 text-rose-600" />
               <span>{errors.totals}</span>
             </div>
           )}
 
           {errors.mismatch && (
             <div className="p-2.5 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-extrabold flex gap-2 items-center">
-              <img src="/logokab.png" className="w-4 h-4 text-rose-600" />
+              <AlertCircle className="w-4 h-4 text-rose-600" />
               <span>{errors.mismatch}</span>
             </div>
           )}

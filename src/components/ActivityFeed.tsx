@@ -4,6 +4,7 @@
  */
 
 import { ActivityLog } from '../types';
+import { Clock, CheckCircle2, UserPlus, Info, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 interface ActivityFeedProps {
   id: string;
@@ -24,15 +25,15 @@ export default function ActivityFeed({ id, logs }: ActivityFeedProps) {
 
   const getIcon = (type: string, action: string) => {
     if (action.includes('Setuju') || action.includes('Verifikasi')) {
-      return <img src="/logokab.png" className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />;
+      return <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />;
     }
     if (action.includes('Daftar') || action.includes('Tambah')) {
-      return <img src="/logokab.png" className="w-4 h-4 text-blue-600 dark:text-blue-400" />;
+      return <UserPlus className="w-4 h-4 text-blue-600 dark:text-blue-400" />;
     }
     if (action.includes('Ulasan') || action.includes('Periksa')) {
-      return <img src="/logokab.png" className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
+      return <Info className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
     }
-    return <img src="/logokab.png" className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />;
+    return <Clock className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />;
   };
 
   const getColorClass = (type: string) => {

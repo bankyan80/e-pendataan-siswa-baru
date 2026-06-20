@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LucideIcon } from 'lucide-react';
 
 interface MetricCardProps {
   id: string;
@@ -13,6 +14,7 @@ interface MetricCardProps {
     value: string;
     isPositive: boolean;
   };
+  icon: LucideIcon;
   color: 'blue' | 'indigo' | 'emerald' | 'amber' | 'rose' | 'teal';
   onClick?: () => void;
 }
@@ -23,6 +25,7 @@ export default function MetricCard({
   value,
   subtitle,
   trend,
+  icon: Icon,
   color,
   onClick
 }: MetricCardProps) {
@@ -75,7 +78,7 @@ export default function MetricCard({
           <span className="text-3xl font-black text-white font-sans tracking-tight">{value}</span>
         </div>
         <div className={`p-2.5 rounded-2xl ${colors.iconBg} flex-shrink-0`}>
-          <img src="/logokab.png" className="w-5 h-5" />
+          <Icon className="w-5 h-5" />
         </div>
       </div>
       {(subtitle || trend) && (
