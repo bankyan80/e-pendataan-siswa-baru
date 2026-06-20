@@ -87,10 +87,11 @@ export default function App() {
   });
 
   const [currentRole, setCurrentRole] = useState<UserRole>('ADMIN_DINAS');
-  const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PUBLIK';
   
   // Sekolah terpilih jika Admin Dinas memfilter, atau sekolah Asal Kepala Sekolah
   const [activeSchool, setActiveSchool] = useState<string>('');
+  
+  const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PUBLIK' || (currentRole === 'KEPALA_SEKOLAH' && !activeSchool);
   
   // Navigation tabs
   const [activeTab, setActiveTab] = useState<'dashboard' | 'siswa_baru' | 'alumni' | 'rekap_sekolah'>('dashboard');
@@ -127,16 +128,6 @@ export default function App() {
   }, []);
 
   const [selectedTime, setSelectedTime] = useState('10:15');
-
-  // Set active school base based on Role selection
-  useEffect(() => {
-    if (currentRole === 'KEPALA_SEKOLAH') {
-      const firstSD = LIST_SEKOLAH.find(s => s.jenjang === 'SD');
-      setActiveSchool(firstSD ? firstSD.nama : '');
-    } else {
-      setActiveSchool(''); // All schools
-    }
-  }, [currentRole]);
 
   // --- DERIVED METRICS ---
   // Overall Global Counts for KPI cards (taking into account selected school if any)
@@ -285,11 +276,7 @@ export default function App() {
   // Switch role and update UI context safely
   const handleRoleChange = (role: UserRole) => {
     setCurrentRole(role);
-    if (role === 'KEPALA_SEKOLAH') {
-      setActiveSchool('SD NEGERI 1 LEMAHABANG');
-    } else {
-      setActiveSchool(''); // clear school level lock
-    }
+    setActiveSchool(''); // clear school filter, user picks one via dropdown
     
     // Add logging
     const newLog: ActivityLog = {
@@ -305,7 +292,7 @@ export default function App() {
           ? 'Pengawas Sekolah'
           : role === 'PUBLIK'
           ? 'Akses Publik (Masyarakat / Wali Murid)'
-          : 'Kepala Sekolah (SD NEGERI 1 LEMAHABANG)'
+          : 'Kepala Sekolah'
       }.`,
       type: 'info'
     };
@@ -415,9 +402,16 @@ export default function App() {
               <span className="text-[10px] font-black text-white/70 uppercase tracking-wider">Cakupan Unit:</span>
               
               {currentRole === 'KEPALA_SEKOLAH' ? (
-                <div className="px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/25">
-                  {activeSchool}
-                </div>
+                <select
+                  value={activeSchool}
+                  onChange={(e) => setActiveSchool(e.target.value)}
+                  className="px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/25 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
+                >
+                  {!activeSchool && <option value="" disabled>Pilih Sekolah Anda...</option>}
+                  {LIST_SEKOLAH.map(s => (
+                    <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
+                  ))}
+                </select>
               ) : (
                 <select
                   value={activeSchool}
