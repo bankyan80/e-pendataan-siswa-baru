@@ -1,5 +1,5 @@
 import { Users, GraduationCap, TrendingUp, School } from 'lucide-react';
-import { SiswaBaru, AlumniSD } from '../types';
+import { SiswaBaru, AlumniSD, UserRole } from '../types';
 import MetricCard from './MetricCard';
 import DashboardCharts from './DashboardCharts';
 
@@ -7,6 +7,7 @@ interface DashboardPageProps {
   siswaBaru: SiswaBaru[];
   alumni: AlumniSD[];
   activeSchool: string;
+  currentRole: UserRole;
   kpis: {
     totalNew: number;
     totalTK: number;
@@ -23,7 +24,12 @@ interface DashboardPageProps {
 }
 
 export default function DashboardPage(props: DashboardPageProps) {
-  const { siswaBaru, alumni, activeSchool, kpis } = props;
+  const { siswaBaru, alumni, activeSchool, currentRole, kpis } = props;
+
+  const showSD = currentRole !== 'PENILIK';
+  const showKB = currentRole !== 'PENGAWAS_SEKOLAH';
+  const showTransisi = currentRole !== 'PENILIK';
+  const showJalurSD = currentRole !== 'PENILIK';
 
   return (
     <div className="space-y-6">
@@ -45,10 +51,11 @@ export default function DashboardPage(props: DashboardPageProps) {
           id="kpi_total"
           title="Total Siswa Baru"
           value={kpis.totalNew}
-          subtitle={activeSchool ? 'Khusus sekolah aktif' : 'KB + TK + SD'}
+          subtitle={activeSchool ? 'Khusus sekolah aktif' : currentRole === 'PENGAWAS_SEKOLAH' ? 'SD + TK' : currentRole === 'PENILIK' ? 'KB' : 'KB + TK + SD'}
           icon={Users}
           color="blue"
         />
+        {showSD && (
         <MetricCard
           id="kpi_sd"
           title="SD (Sekolah Dasar)"
@@ -57,14 +64,18 @@ export default function DashboardPage(props: DashboardPageProps) {
           icon={School}
           color="emerald"
         />
+        )}
+        {(showSD || showKB) && (
         <MetricCard
           id="kpi_tk_kb"
-          title="TK & KB (PAUD)"
-          value={kpis.totalTK + kpis.totalKB}
-          subtitle={`TK: ${kpis.totalTK} | KB: ${kpis.totalKB}`}
+          title={currentRole === 'PENGAWAS_SEKOLAH' ? 'TK' : currentRole === 'PENILIK' ? 'KB' : 'TK & KB (PAUD)'}
+          value={currentRole === 'PENGAWAS_SEKOLAH' ? kpis.totalTK : currentRole === 'PENILIK' ? kpis.totalKB : kpis.totalTK + kpis.totalKB}
+          subtitle={currentRole === 'PENGAWAS_SEKOLAH' ? `TK: ${kpis.totalTK}` : currentRole === 'PENILIK' ? `KB: ${kpis.totalKB}` : `TK: ${kpis.totalTK} | KB: ${kpis.totalKB}`}
           icon={GraduationCap}
           color="indigo"
         />
+        )}
+        {showTransisi && (
         <MetricCard
           id="kpi_transisi"
           title="Transisi Alumni SD"
@@ -73,9 +84,11 @@ export default function DashboardPage(props: DashboardPageProps) {
           icon={TrendingUp}
           color="amber"
         />
+        )}
       </div>
 
       {/* SD Specific Entry Path Alerts (Jalur alerts) */}
+      {showJalurSD && (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5 bg-white/15 backdrop-blur-md rounded-3xl border border-white/20 shadow-md">
         <div className="flex flex-col gap-1">
           <span className="text-[10px] uppercase font-black text-white/60 tracking-wider">Jalur Domisili / Zonasi</span>
@@ -104,6 +117,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           <p className="text-[10px] text-white/60 italic leading-relaxed">Diperuntukkan anak mutasi dinas/kerja fungsional luar daerah.</p>
         </div>
       </div>
+      )}
 
       {/* Charts Section using Recharts */}
       <div className="bg-transparent p-0 rounded-2xl">

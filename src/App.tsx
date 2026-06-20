@@ -579,6 +579,7 @@ export default function App() {
               alumni={filteredAlumni}
               activeSchool={activeSchool}
               kpis={kpis}
+              currentRole={currentRole}
             />
           )}
 
