@@ -436,7 +436,7 @@ export default function App() {
     <div className="min-h-screen bg-gradient-to-br from-[#1a2a6c] via-[#b21f1f] to-[#fdbb2d] font-sans text-white overflow-x-hidden flex flex-col md:items-center md:py-8 md:px-4">
       
       {/* Container simulating a high-end Android Tablet view frame with Premium Frosted Glass */}
-      <div className="w-full max-w-5xl bg-white/10 backdrop-blur-xl md:rounded-[2rem] md:border md:border-white/20 shadow-2xl overflow-hidden flex flex-col min-h-screen md:min-h-[880px]">
+      <div className="w-full max-w-5xl bg-white/10 backdrop-blur-xl md:rounded-[2rem] md:border md:border-white/20 shadow-2xl overflow-hidden flex flex-col h-screen md:h-[880px]">
         
         {/* Android Native-Style Top Status Bar (Immersive visual context in Frosted Dark) */}
         <div className="bg-black/30 backdrop-blur-md text-white/90 text-[11px] font-sans h-8 px-4 flex items-center justify-between pointer-events-none select-none border-b border-white/10">
