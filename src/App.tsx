@@ -452,20 +452,20 @@ export default function App() {
         </div>
 
         {/* Dynamic App Header with Glassy Design */}
-        <div className="p-5 border-b border-white/15 bg-white/10 backdrop-blur-xl flex flex-col gap-4">
+        <div className="p-3 md:p-5 border-b border-white/15 bg-white/10 backdrop-blur-xl flex flex-col gap-2 md:gap-4">
           
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 bg-white/25 rounded-2xl text-white border border-white/35 shadow-lg overflow-hidden">
-                <img src="/logokab.png" alt="Logo" className="w-8 h-8 object-contain" />
+          <div className="flex items-start justify-between gap-2 md:gap-4">
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="p-1 md:p-1.5 bg-white/25 rounded-2xl text-white border border-white/35 shadow-lg overflow-hidden">
+                <img src="/logokab.png" alt="Logo" className="w-6 h-6 md:w-8 md:h-8 object-contain" />
               </div>
               <div className="space-y-1">
-                <h1 className="text-base font-black tracking-wider text-white flex items-center gap-2">
+                <h1 className="text-sm md:text-base font-black tracking-wider text-white flex items-center gap-2">
                   E-PENDATAAN SISWA BARU
                   <span className="hidden sm:inline-block px-2.5 py-0.5 bg-green-500 text-white text-[9px] font-black uppercase tracking-wider rounded-full shadow-[0_0_10px_rgba(34,197,94,0.6)]">Active</span>
                 </h1>
-                <p className="text-[11px] text-white/70 font-bold uppercase tracking-[0.1em]">
-                  Kecamatan Lemahabang • TP 2026/2027
+                <p className="text-[10px] md:text-[11px] text-white/70 font-bold uppercase tracking-[0.1em]">
+                  Kec. Lemahabang • TP 2026/2027
                 </p>
               </div>
             </div>
