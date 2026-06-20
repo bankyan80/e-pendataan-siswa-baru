@@ -162,6 +162,13 @@ export default function App() {
     upsertLogs(logs).catch(() => {});
   }, [logs, dataLoaded]);
 
+  // Redirect non-admin away from rekap_sekolah tab
+  useEffect(() => {
+    if (activeTab === 'rekap_sekolah' && currentRole !== 'ADMIN_DINAS') {
+      setActiveTab('dashboard');
+    }
+  }, [activeTab, currentRole]);
+
   useEffect(() => {
     try { localStorage.setItem('active_tab', activeTab); } catch {}
   }, [activeTab]);
@@ -704,17 +711,19 @@ export default function App() {
             <span className="text-[10px] tracking-tight uppercase font-bold">Alumni & Transisi</span>
           </button>
 
-          <button
-            onClick={() => setActiveTab('rekap_sekolah')}
-            className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all duration-[350ms] ${
-              activeTab === 'rekap_sekolah'
-                ? 'text-yellow-300 font-extrabold scale-105'
-                : 'text-white/50 hover:text-white'
-            }`}
-          >
-            <BookOpen className="w-5 h-5" />
-            <span className="text-[10px] tracking-tight uppercase font-bold">Rekap Unit</span>
-          </button>
+          {currentRole === 'ADMIN_DINAS' && (
+            <button
+              onClick={() => setActiveTab('rekap_sekolah')}
+              className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all duration-[350ms] ${
+                activeTab === 'rekap_sekolah'
+                  ? 'text-yellow-300 font-extrabold scale-105'
+                  : 'text-white/50 hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-5 h-5" />
+              <span className="text-[10px] tracking-tight uppercase font-bold">Rekap Unit</span>
+            </button>
+          )}
 
         </nav>
 
