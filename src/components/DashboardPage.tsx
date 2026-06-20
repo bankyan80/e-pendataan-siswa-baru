@@ -1,13 +1,11 @@
 import { Users, GraduationCap, TrendingUp, School, Download, FileSpreadsheet } from 'lucide-react';
-import { SiswaBaru, AlumniSD, ActivityLog } from '../types';
+import { SiswaBaru, AlumniSD } from '../types';
 import MetricCard from './MetricCard';
-import ActivityFeed from './ActivityFeed';
 import DashboardCharts from './DashboardCharts';
 
 interface DashboardPageProps {
   siswaBaru: SiswaBaru[];
   alumni: AlumniSD[];
-  logs: ActivityLog[];
   activeSchool: string;
   kpis: {
     totalNew: number;
@@ -27,7 +25,7 @@ interface DashboardPageProps {
 }
 
 export default function DashboardPage(props: DashboardPageProps) {
-  const { siswaBaru, alumni, logs, activeSchool, kpis, onExportSiswa, onExportAlumni } = props;
+  const { siswaBaru, alumni, activeSchool, kpis, onExportSiswa, onExportAlumni } = props;
 
   return (
     <div className="space-y-6">
@@ -128,42 +126,6 @@ export default function DashboardPage(props: DashboardPageProps) {
       {/* Charts Section using Recharts */}
       <div className="bg-transparent p-0 rounded-2xl">
         <DashboardCharts id="charts_dashboard" siswaBaru={siswaBaru} alumni={alumni} />
-      </div>
-
-      {/* Bottom Row - Real-time activity feeds and notes */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        {/* Real-time sync logs feed */}
-        <div className="lg:col-span-2 p-5 bg-white/20 backdrop-blur-md border border-white/25 rounded-3xl shadow-xl">
-          <ActivityFeed id="live_activity_logs" logs={logs} />
-        </div>
-
-        {/* Info / Quick Actions Card */}
-        <div className="p-5 bg-black/25 backdrop-blur-md text-white/95 border border-white/15 rounded-3xl shadow-xl flex flex-col justify-between">
-          <div>
-            <h4 className="text-xs uppercase font-black tracking-widest text-[#fdbb2d]">
-              Instruksi Tugas Mandat TP 2026/2027
-            </h4>
-            <div className="mt-4 space-y-3.5 text-xs text-white/85 leading-relaxed">
-              <div className="flex gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white font-bold text-[10px] self-start border border-white/10">1</span>
-                <p><strong>Kepala Sekolah</strong> berkewajiban mendaftarkan siswa baru, memvalidasi jalur pendaftaran SD, serta memperbaharui alumni lulus.</p>
-              </div>
-              <div className="flex gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white font-bold text-[10px] self-start border border-white/10">2</span>
-                <p><strong>Pengawas</strong> memantau transisi Wajib Belajar 9 Tahun agar angka putus sekolah paska-SD teratasi sepenuhnya di tingkat kecamatan.</p>
-              </div>
-              <div className="flex gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-white font-bold text-[10px] self-start border border-white/10">3</span>
-                <p><strong>Tim Kerja Dinas</strong> bertindak sebagai administrator agregasi untuk memverifikasi kecocokan NIK pusat & ekspor berkas rekapitulasi.</p>
-              </div>
-            </div>
-          </div>
-          <div className="mt-5 pt-4 border-t border-white/15 text-[10px] text-white/50 italic font-mono leading-relaxed">
-            * Data tervalidasi selaras dengan Data Pokok Pendidikan (Dapodik) Kemendikbudristek 2026.
-          </div>
-        </div>
-
       </div>
 
     </div>

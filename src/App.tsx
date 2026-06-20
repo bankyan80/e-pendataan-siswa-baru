@@ -488,7 +488,6 @@ export default function App() {
             <DashboardPage
               siswaBaru={filteredSiswaBaru}
               alumni={filteredAlumni}
-              logs={logs}
               activeSchool={activeSchool}
               kpis={kpis}
               onExportSiswa={() => exportSiswaBaruToCSV(filteredSiswaBaru)}
