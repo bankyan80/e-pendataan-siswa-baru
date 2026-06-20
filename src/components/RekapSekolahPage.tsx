@@ -29,19 +29,9 @@ interface RekapSekolahPageProps {
   setActiveTab: (tab: 'dashboard' | 'siswa_baru' | 'alumni' | 'rekap_sekolah') => void;
 }
 
-const getBaselineStats = (npsn: string) => {
-  const seed = parseInt(npsn || '0') || 123;
-  const total = 25 + (seed % 27); // 25 to 51
-  const tidakLulus = seed % 17 === 0 ? 1 : 0;
-  const tidakMelanjutkan = seed % 7 === 0 ? 3 : (seed % 4 === 0 ? 2 : (seed % 3 === 0 ? 1 : 0));
-  const melanjutkan = total - tidakLulus - tidakMelanjutkan;
-  return {
-    melanjutkan,
-    tidakMelanjutkan,
-    tidakLulus,
-    jumlahLulus: melanjutkan + tidakMelanjutkan,
-    total
-  };
+const getStudentTotal = (s: SiswaBaru): number => {
+  if (s.jenjang === 'SD') return (s.lakiLaki || 0) + (s.perempuan || 0);
+  return (s.kelompokA || 0) + (s.kelompokB || 0);
 };
 
 export default function RekapSekolahPage(props: RekapSekolahPageProps) {
@@ -70,14 +60,9 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
 
   const rekapKelulusanData = sdSchools.map((school, i) => {
     const alums = alumni.filter(a => a.sekolahAsal === school.nama);
-    const activeMelanjutkan = alums.filter(a => a.status === 'Melanjutkan').length;
-    const activeTidakMelanjutkan = alums.filter(a => a.status === 'Tidak Melanjutkan').length;
-    const activeTidakLulus = alums.filter(a => a.status === 'Tidak Lulus').length;
-
-    const base = getBaselineStats(school.npsn || '0');
-    const totalMelanjutkan = base.melanjutkan + activeMelanjutkan;
-    const totalTidakMelanjutkan = base.tidakMelanjutkan + activeTidakMelanjutkan;
-    const totalTidakLulus = base.tidakLulus + activeTidakLulus;
+    const totalMelanjutkan = alums.filter(a => a.status === 'Melanjutkan').length;
+    const totalTidakMelanjutkan = alums.filter(a => a.status === 'Tidak Melanjutkan').length;
+    const totalTidakLulus = alums.filter(a => a.status === 'Tidak Lulus').length;
     const totalLulusJumlah = totalMelanjutkan + totalTidakMelanjutkan;
     const totalJumlah = totalLulusJumlah + totalTidakLulus;
 
@@ -272,10 +257,11 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-700 font-medium">
                 {LIST_SEKOLAH.map((school, idx) => {
-                  const pends = siswaBaru.filter(s => s.sekolahTujuan === school.nama);
-                  const diverif = pends.filter(s => s.statusVerifikasi === 'Diverifikasi').length;
-                  const process = pends.filter(s => s.statusVerifikasi === 'Diproses').length;
-                  const reject = pends.filter(s => s.statusVerifikasi === 'Ditolak').length;
+                  const entry = siswaBaru.find(s => s.sekolahTujuan === school.nama);
+                  const totalSiswa = entry ? getStudentTotal(entry) : 0;
+                  const diverif = entry?.statusVerifikasi === 'Diverifikasi' ? 1 : 0;
+                  const process = entry?.statusVerifikasi === 'Diproses' ? 1 : 0;
+                  const reject = entry?.statusVerifikasi === 'Ditolak' ? 1 : 0;
 
                   const alums = alumni.filter(a => a.sekolahAsal === school.nama);
                   const cont = alums.filter(a => a.status === 'Melanjutkan').length;
@@ -303,7 +289,7 @@ export default function RekapSekolahPage(props: RekapSekolahPageProps) {
                           {school.jenjang}
                         </span>
                       </td>
-                      <td className="p-3.5 text-center font-black text-indigo-700">{pends.length}</td>
+                      <td className="p-3.5 text-center font-black text-indigo-700">{totalSiswa}</td>
                       <td className="p-3.5 text-center text-emerald-600 font-extrabold">{diverif}</td>
                       <td className="p-3.5 text-center text-amber-600 font-bold">{process}</td>
                       <td className="p-3.5 text-center text-rose-500 font-bold">{reject}</td>
