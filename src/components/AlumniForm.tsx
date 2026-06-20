@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { AlumniSD, UserRole } from '../types';
 import { LIST_SEKOLAH } from '../data/initialData';
 import { X, Check, AlertCircle } from 'lucide-react';
+import AiValidation from './AiValidation';
 
 interface AlumniFormProps {
   id: string;
@@ -387,6 +388,23 @@ export default function AlumniForm({
                 </button>
               </div>
             )}
+          </div>
+
+          <div className="px-1">
+            <AiValidation
+              data={{
+                nama,
+                nik,
+                jk,
+                sekolahAsal,
+                tahunLulus,
+                status,
+                tujuanSekolah: status === 'Melanjutkan' ? tujuanSekolah : undefined,
+                alasanTidakMelanjutkan: status === 'Tidak Melanjutkan' ? alasanTidakMelanjutkan : undefined,
+                statusVerifikasi,
+              }}
+              context="alumni"
+            />
           </div>
         </form>
 

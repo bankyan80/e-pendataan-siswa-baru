@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { SiswaBaru, Jenjang, StatusVerifikasi, UserRole } from '../types';
 import { LIST_SEKOLAH } from '../data/initialData';
 import { X, AlertCircle, Info, Calendar, School, Check } from 'lucide-react';
+import AiValidation from './AiValidation';
 
 interface SiswaBaruFormProps {
   id: string;
@@ -513,6 +514,26 @@ export default function SiswaBaruForm({
               <span>{errors.mismatch}</span>
             </div>
           )}
+
+          <div className="px-1">
+            <AiValidation
+              data={{
+                sekolahTujuan,
+                jenjang,
+                lakiLaki: jenjang === 'SD' ? lakiLaki : 0,
+                perempuan: jenjang === 'SD' ? perempuan : 0,
+                domisili: jenjang === 'SD' ? domisili : 0,
+                afirmasi: jenjang === 'SD' ? afirmasi : 0,
+                mutasi: jenjang === 'SD' ? mutasi : 0,
+                umum: jenjang === 'SD' ? umum : 0,
+                kelompokA: jenjang !== 'SD' ? kelompokA : 0,
+                kelompokB: jenjang !== 'SD' ? kelompokB : 0,
+                statusVerifikasi,
+                catatan,
+              }}
+              context="siswa"
+            />
+          </div>
 
         </form>
 
