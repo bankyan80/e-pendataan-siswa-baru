@@ -27,7 +27,7 @@ export default function SiswaBaruForm({
   userSchool
 }: SiswaBaruFormProps) {
   const isEdit = !!student;
-  const isReadOnly = userRole === 'PENGAWAS_SEKOLAH' || userRole === 'PUBLIK';
+  const isReadOnly = userRole === 'PENGAWAS_SEKOLAH' || userRole === 'PENILIK' || userRole === 'PUBLIK' || userRole === 'KEPALA_SEKOLAH' || (userRole === 'OPERATOR_SEKOLAH' && !userSchool);
 
   const [sekolahTujuan, setSekolahTujuan] = useState('');
   const [jenjang, setJenjang] = useState<Jenjang>('SD');
@@ -239,7 +239,7 @@ export default function SiswaBaruForm({
           {/* Sekolah Tujuan Selector */}
           <div className="space-y-1.5">
             <label className="text-xs font-black text-slate-700 dark:text-slate-400 block uppercase tracking-wider">Nama Lembaga Pendidikan</label>
-            {userRole === 'KEPALA_SEKOLAH' || isReadOnly ? (
+            {userRole === 'KEPALA_SEKOLAH' || userRole === 'OPERATOR_SEKOLAH' || isReadOnly ? (
               <div className="w-full px-4 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-sm font-black text-slate-700 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
                 {sekolahTujuan}
               </div>

@@ -27,7 +27,7 @@ export default function AlumniForm({
   userSchool
 }: AlumniFormProps) {
   const isEdit = !!alumni;
-  const isReadOnly = userRole === 'PENGAWAS_SEKOLAH' || userRole === 'PUBLIK';
+  const isReadOnly = userRole === 'PENGAWAS_SEKOLAH' || userRole === 'PENILIK' || userRole === 'PUBLIK' || userRole === 'KEPALA_SEKOLAH' || (userRole === 'OPERATOR_SEKOLAH' && !userSchool);
 
   const [nama, setNama] = useState('');
   const [nik, setNik] = useState('');
@@ -221,7 +221,7 @@ export default function AlumniForm({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 block">Sekolah Asal (SD)</label>
-              {userRole === 'KEPALA_SEKOLAH' || isReadOnly ? (
+              {userRole === 'KEPALA_SEKOLAH' || userRole === 'OPERATOR_SEKOLAH' || isReadOnly ? (
                 <input
                   type="text"
                   readOnly

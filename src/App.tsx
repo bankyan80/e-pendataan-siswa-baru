@@ -20,6 +20,7 @@ import {
 
 // Components
 import ConfirmModal from './components/ConfirmModal';
+import LoginModal from './components/LoginModal';
 import DashboardPage from './components/DashboardPage';
 import SiswaBaruPage from './components/SiswaBaruPage';
 import AlumniPage from './components/AlumniPage';
@@ -84,8 +85,18 @@ export default function App() {
 
   const [currentRole, setCurrentRole] = useState<UserRole>('ADMIN_DINAS');
   
-  // Sekolah terpilih jika Admin Dinas memfilter, atau sekolah Asal Kepala Sekolah
   const [activeSchool, setActiveSchool] = useState<string>('');
+
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [pendingRole, setPendingRole] = useState<UserRole | null>('ADMIN_DINAS'); // show PIN on mount
+  const [pinAuthenticated, setPinAuthenticated] = useState(false);
+
+  // Show PIN modal on initial mount
+  useEffect(() => {
+    if (!pinAuthenticated) {
+      setShowLoginModal(true);
+    }
+  }, [pinAuthenticated]);
   
   const isReadOnly = currentRole === 'PENGAWAS_SEKOLAH' || currentRole === 'PENILIK' || currentRole === 'PUBLIK' || currentRole === 'KEPALA_SEKOLAH' || (currentRole === 'OPERATOR_SEKOLAH' && !activeSchool);
   
@@ -283,32 +294,102 @@ export default function App() {
 
   // Switch role and update UI context safely
   const handleRoleChange = (role: UserRole) => {
+    // If already on this role, skip the modal
+    if (role === currentRole) {
+      return;
+    }
+    
+    // ADMIN_DINAS, OPERATOR_SEKOLAH, and KEPALA_SEKOLAH require PIN
+    if (role === 'ADMIN_DINAS' || role === 'OPERATOR_SEKOLAH' || role === 'KEPALA_SEKOLAH') {
+      setPendingRole(role);
+      setShowLoginModal(true);
+      return;
+    }
+    
     setCurrentRole(role);
-    setActiveSchool(''); // clear school filter, user picks one via dropdown
+    setActiveSchool('');
     
     // Add logging
     const newLog: ActivityLog = {
       id: generateId('log'),
       timestamp: new Date().toISOString(),
       role,
-      actorName: role === 'ADMIN_DINAS' ? 'Tim Dinas' : role === 'PENGAWAS_SEKOLAH' ? 'Pengawas' : role === 'PENILIK' ? 'Penilik' : role === 'PUBLIK' ? 'Masyarakat (Publik)' : role === 'OPERATOR_SEKOLAH' ? 'Operator Sekolah' : 'Kepala Sekolah',
+      actorName: role === 'PENGAWAS_SEKOLAH' ? 'Pengawas' : role === 'PENILIK' ? 'Penilik' : 'Masyarakat (Publik)',
       action: 'Login',
       detail: `Mengganti mode akses dashboard menjadi ${
-        role === 'ADMIN_DINAS'
-          ? 'Tim Kerja Dinas Pendidikan Kecamatan'
-          : role === 'PENGAWAS_SEKOLAH'
+        role === 'PENGAWAS_SEKOLAH'
           ? 'Pengawas Sekolah'
           : role === 'PENILIK'
           ? 'Penilik'
-          : role === 'PUBLIK'
-          ? 'Akses Publik (Masyarakat / Wali Murid)'
-          : role === 'OPERATOR_SEKOLAH'
-          ? 'Operator Sekolah'
-          : 'Kepala Sekolah'
+          : 'Akses Publik (Masyarakat / Wali Murid)'
       }.`,
       type: 'info'
     };
     setLogs(prev => [newLog, ...prev]);
+  };
+
+  const handleLoginSuccess = (pin: string) => {
+    setShowLoginModal(false);
+
+    if (!pendingRole) return;
+
+    if (pendingRole === 'ADMIN_DINAS') {
+      if (pin !== '637238') {
+        setShowLoginModal(true);
+        return;
+      }
+      setCurrentRole('ADMIN_DINAS');
+      setActiveSchool('');
+      setPinAuthenticated(true);
+      const newLog: ActivityLog = {
+        id: generateId('log'), timestamp: new Date().toISOString(),
+        role: 'ADMIN_DINAS', actorName: 'Tim Dinas', action: 'Login',
+        detail: 'Login sebagai Admin Dinas',
+        type: 'info'
+      };
+      setLogs(prev => [newLog, ...prev]);
+      setPendingRole(null);
+      return;
+    }
+
+    // OPERATOR_SEKOLAH or KEPALA_SEKOLAH — PIN = NPSN
+    const school = LIST_SEKOLAH.find(s => s.npsn === pin);
+    if (!school) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    setCurrentRole(pendingRole);
+    setActiveSchool(school.nama);
+    setPinAuthenticated(true);
+
+    const roleName = pendingRole === 'KEPALA_SEKOLAH' ? 'Kepala Sekolah' : 'Operator';
+    const newLog: ActivityLog = {
+      id: generateId('log'), timestamp: new Date().toISOString(),
+      role: pendingRole, actorName: roleName, action: 'Login',
+      detail: `Login sebagai ${roleName} di ${school.nama} (NPSN: ${pin})`,
+      type: 'info'
+    };
+    setLogs(prev => [newLog, ...prev]);
+    setPendingRole(null);
+  };
+
+  const handleLogout = () => {
+    setPinAuthenticated(false);
+    setCurrentRole('ADMIN_DINAS');
+    setActiveSchool('');
+
+    const newLog: ActivityLog = {
+      id: generateId('log'), timestamp: new Date().toISOString(),
+      role: 'ADMIN_DINAS', actorName: 'Tim Dinas', action: 'Logout',
+      detail: 'Keluar dari sesi',
+      type: 'info'
+    };
+    setLogs(prev => [newLog, ...prev]);
+
+    // Re-show PIN modal for ADMIN_DINAS
+    setPendingRole('ADMIN_DINAS');
+    setShowLoginModal(true);
   };
 
   return (
@@ -434,16 +515,23 @@ export default function App() {
               <span className="text-[10px] font-black text-white/70 uppercase tracking-wider">Cakupan Unit:</span>
               
               {currentRole === 'KEPALA_SEKOLAH' || currentRole === 'OPERATOR_SEKOLAH' ? (
-                <select
-                  value={activeSchool}
-                  onChange={(e) => setActiveSchool(e.target.value)}
-                  className="px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/25 cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
-                >
-                  {!activeSchool && <option value="" disabled>Pilih Sekolah Anda...</option>}
-                  {LIST_SEKOLAH.map(s => (
-                    <option key={s.id} value={s.nama} className="text-slate-800">{s.nama}</option>
-                  ))}
-                </select>
+                activeSchool ? (
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1.5 bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider rounded-lg truncate max-w-[180px] sm:max-w-xs">
+                      {activeSchool}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="px-2.5 py-1.5 rounded-lg bg-rose-500/30 text-rose-200 text-[10px] font-black uppercase tracking-wider hover:bg-rose-500/50 transition-all border border-rose-400/30"
+                    >
+                      Keluar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="px-3 py-1.5 bg-white/10 text-white/60 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-white/10">
+                    Login dulu...
+                  </div>
+                )
               ) : (
                 <select
                   value={activeSchool}
@@ -613,6 +701,20 @@ export default function App() {
           }}
           onCancel={() => setConfirmDelete(null)}
         />
+
+        {showLoginModal && pendingRole && (
+          <LoginModal
+            role={pendingRole}
+            onSuccess={handleLoginSuccess}
+            onCancel={() => {
+              setShowLoginModal(false);
+              setPendingRole(null);
+              if (!pinAuthenticated) {
+                setCurrentRole('PUBLIK');
+              }
+            }}
+          />
+        )}
 
       </div>
 
