@@ -18,14 +18,22 @@ import {
   Cell
 } from 'recharts';
 
+import { LIST_SEKOLAH } from '../data/initialData';
+
 interface DashboardChartsProps {
   id: string;
   siswaBaru: SiswaBaru[];
   alumni: AlumniSD[];
   currentRole: string;
+  activeSchool?: string;
 }
 
-export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: DashboardChartsProps) {
+export default function DashboardCharts({ id, siswaBaru, alumni, currentRole, activeSchool }: DashboardChartsProps) {
+  const isOperatorOrKepsek = (currentRole === 'OPERATOR_SEKOLAH' || currentRole === 'KEPALA_SEKOLAH') && !!activeSchool;
+  const schoolJenjang = isOperatorOrKepsek
+    ? LIST_SEKOLAH.find(s => s.nama === activeSchool)?.jenjang
+    : null;
+  
   const isPenilik = currentRole === 'PENILIK';
   const isPengawas = currentRole === 'PENGAWAS_SEKOLAH';
   
@@ -49,6 +57,8 @@ export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: 
         { name: 'TK (Taman Kanak-Kanak)', value: countJenjang('TK'), fill: '#3b82f6' },
         { name: 'SD (Sekolah Dasar)', value: countJenjang('SD'), fill: '#10b981' },
       ]
+    : isOperatorOrKepsek && schoolJenjang
+    ? [{ name: schoolJenjang === 'SD' ? 'SD (Sekolah Dasar)' : schoolJenjang === 'TK' ? 'TK (Taman Kanak-Kanak)' : 'KB (Kelompok Bermain)', value: countJenjang(schoolJenjang), fill: schoolJenjang === 'SD' ? '#10b981' : schoolJenjang === 'TK' ? '#3b82f6' : '#9333ea' }]
     : [
         { name: 'KB (Kelompok Bermain)', value: countJenjang('KB'), fill: '#9333ea' },
         { name: 'TK (Taman Kanak-Kanak)', value: countJenjang('TK'), fill: '#3b82f6' },
@@ -156,7 +166,7 @@ export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: 
       </div>
 
       {/* Chart 2: Jalur Pendaftaran SD */}
-      {!isPenilik && (
+      {!isPenilik && !(isOperatorOrKepsek && schoolJenjang !== 'SD') && (
       <div className="p-5 bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl flex flex-col justify-between shadow-lg">
         <div className="space-y-1 mb-3">
           <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">Zonasi & Regulasi</span>
@@ -194,7 +204,7 @@ export default function DashboardCharts({ id, siswaBaru, alumni, currentRole }: 
       )}
 
       {/* Chart 3: Alumni SD Transition Rate */}
-      {!isPenilik && (
+      {!isPenilik && !(isOperatorOrKepsek && schoolJenjang !== 'SD') && (
       <div className="p-5 bg-white/20 backdrop-blur-md border border-white/30 rounded-3xl flex flex-col justify-between shadow-lg">
         <div className="space-y-1 mb-3">
           <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">Pemantauan Wajib Belajar</span>

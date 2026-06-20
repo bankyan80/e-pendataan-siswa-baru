@@ -121,7 +121,7 @@ export default function DashboardPage(props: DashboardPageProps) {
 
       {/* Charts Section using Recharts */}
       <div className="bg-transparent p-0 rounded-2xl">
-        <DashboardCharts id="charts_dashboard" siswaBaru={siswaBaru} alumni={alumni} currentRole={currentRole} />
+        <DashboardCharts id="charts_dashboard" siswaBaru={siswaBaru} alumni={alumni} currentRole={currentRole} activeSchool={activeSchool} />
       </div>
 
     </div>
